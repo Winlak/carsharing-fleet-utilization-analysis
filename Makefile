@@ -1,4 +1,4 @@
-.PHONY: install lint test reproduce
+.PHONY: install lint test reproduce reproduce-check
 
 install:
 	python3 -m pip install --upgrade pip
@@ -12,3 +12,7 @@ test:
 
 reproduce:
 	python3 -m src.run_pipeline
+
+reproduce-check: reproduce
+	git diff --exit-code
+	test -z "$$(git status --porcelain --untracked-files=all)"

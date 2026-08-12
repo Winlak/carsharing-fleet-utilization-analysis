@@ -1,6 +1,8 @@
+import json
 from datetime import datetime
 
 from src.build_marts import build_marts
+from src.create_notebook import write_notebook
 from src.generate_data import run_generator
 
 
@@ -16,3 +18,19 @@ def test_calendar_grid_and_metric_bounds(tmp_path) -> None:
     bounded_rates = zone_hour.dropna(subset=["search_to_book_conversion", "lost_demand_proxy"])
     assert bounded_rates["search_to_book_conversion"].between(0, 1).all()
     assert bounded_rates["lost_demand_proxy"].between(0, 1).all()
+    assert zone_hour[["hour_ts", "zone_id"]].equals(zone_hour[["hour_ts", "zone_id"]].sort_values(["hour_ts", "zone_id"]).reset_index(drop=True))
+
+    summary = {
+        "rides": 1,
+        "utilization_rate": 0.1,
+        "search_to_book_conversion": 0.2,
+        "lost_demand_proxy": 0.3,
+        "top_relocation_hypothesis": {},
+    }
+    summary_path = tmp_path / "summary.json"
+    notebook_path = tmp_path / "fleet.ipynb"
+    summary_path.write_text(json.dumps(summary), encoding="utf-8")
+    write_notebook(summary_path, notebook_path)
+    first_bytes = notebook_path.read_bytes()
+    write_notebook(summary_path, notebook_path)
+    assert notebook_path.read_bytes() == first_bytes

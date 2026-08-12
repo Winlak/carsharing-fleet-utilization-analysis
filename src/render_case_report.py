@@ -43,25 +43,17 @@ def render_report(outputs_dir: Path, docs_dir: Path) -> None:
 
 ## Динамика подтверждает необходимость планирования по времени
 
-![Динамика метрик](../outputs/figures/weekly_fleet_metrics.png)
+Интерактивная версия динамики и остальных графиков доступна в [portable dashboard](../artifacts/fleet_dashboard.html). Локальные PNG также создаются при `make reproduce`, однако намеренно не версионируются: их байты зависят от платформы отрисовки и не являются каноническим артефактом кейса.
 
 **Ни одна неделя не должна считаться универсальным базисом.** В синтетическом сценарии объём поездок достигает максимума в {busy_month['month']} ({busy_month['rides_started']:,} поездок), а минимален в {quiet_month['month']} ({quiet_month['rides_started']:,}). Это заданная генератором сезонность, но она иллюстрирует правильный аналитический принцип: для оценки пилота нужны равные календарные недели и стратификация по day type.
 
-![Сезонность](../outputs/figures/monthly_seasonality.png)
-
 ## Дефицит концентрируется в конкретных сочетаниях зоны и часа
 
-![Тепловая карта lost demand](../outputs/figures/zone_hour_lost_demand_heatmap.png)
-
 **Тепловая карта — инструмент выбора страты для теста, а не причинное доказательство.** Она показывает долю поисков, встретивших нулевую доступность. Для проверки результата в боевых данных понадобятся ETA, радиус поиска, стоимость, отмены и реальная логика выдачи автомобиля.
-
-![Доступность и конверсия](../outputs/figures/availability_conversion_relationship.png)
 
 **Доступность и конверсия движутся вместе в агрегированных наблюдениях** (Spearman ρ = {summary['availability_conversion_spearman']:.2f}). Для этого среза availability фиксируется до обработки поисков часа, поэтому исход бронирования не подставляется обратно в предиктор. Но это всё ещё не отделяет эффект доступности от спроса, цены, состава пользователей и времени суток; причинный вывод здесь делать нельзя.
 
 ## Будни и выходные — разные операционные режимы
-
-![Будни и выходные](../outputs/figures/weekday_weekend_comparison.png)
 
 **Слоты следует планировать отдельно.** В симуляции утилизация в будни — {pct(weekday.loc['weekday', 'utilization_rate'])}, в выходные — {pct(weekday.loc['weekend', 'utilization_rate'])}; lost demand proxy соответственно {pct(weekday.loc['weekday', 'lost_demand_proxy'])} и {pct(weekday.loc['weekend', 'lost_demand_proxy'])}. Поэтому контроль и treatment нельзя смешивать без стратификации.
 
@@ -96,7 +88,7 @@ def render_report(outputs_dir: Path, docs_dir: Path) -> None:
 - `lost_demand_proxy` — не полный unmet demand, а наблюдаемый нижний предел.
 - В кейсе нет отмен, цены, ETA, расстояния до автомобиля, парковочных правил и выручки; они обязательны для production-решения.
 
-Методология, SQL и качество данных: [`README`](../README.md), [`data dictionary`](data_dictionary.md), [`quality checks`](../data/processed/data_quality_report.md), [`notebook`](../notebooks/fleet_utilization_analysis.ipynb).
+Методология, SQL и качество данных: [`README`](../README.md), [`data dictionary`](data_dictionary.md), [`quality checks`](../data/processed/data_quality_report.md), [`notebook source`](../notebooks/fleet_utilization_analysis.ipynb), [`interactive report`](../artifacts/analysis_report.html).
 """
     docs_dir.mkdir(parents=True, exist_ok=True)
     (docs_dir / "analysis_report.md").write_text(report, encoding="utf-8")

@@ -147,7 +147,8 @@ SELECT
     AVG(lost_demand_proxy) OVER (
         PARTITION BY zone_id ORDER BY hour_ts ROWS BETWEEN 167 PRECEDING AND CURRENT ROW
     ) AS rolling_7d_lost_demand_proxy
-FROM metrics;
+FROM metrics
+ORDER BY hour_ts, zone_id;
 </code></pre></div></div></div>
 <div class="portable-block portable-layout-full" data-artifact-block-id="finding_weekly" data-artifact-block-type="markdown" data-layout="full"><section class="portable-markdown"><h2>Сезонность и динамика</h2>
 <p><strong>Сравнивать слоты нужно с одинаковым календарным контекстом.</strong> Недельные метрики меняются вместе с заданной сезонностью спроса.</p></section><div class="portable-inline-source portable-source-summary" data-source-id="fleet_daily_mart"><div class="portable-inline-source-content portable-source-summary-content"><span class="portable-source-tooltip-heading" aria-hidden="true">Source for Сезонность и динамика</span><strong>Source: Synthetic fleet daily mart</strong><span class="portable-source-meta">Table: data/processed/mart_zone_hour.csv</span><p class="portable-source-description-data">Fleet roll-up recalculates rates from components rather than averaging zone rates.</p><pre class="portable-source-query-data" aria-hidden="true"><code>-- Fleet roll-up uses raw components, not an average of zone-level percentages.
@@ -616,7 +617,8 @@ SELECT
     AVG(lost_demand_proxy) OVER (
         PARTITION BY zone_id ORDER BY hour_ts ROWS BETWEEN 167 PRECEDING AND CURRENT ROW
     ) AS rolling_7d_lost_demand_proxy
-FROM metrics;
+FROM metrics
+ORDER BY hour_ts, zone_id;
 </code></pre></div></div></div>
 <div class="portable-block portable-layout-full" data-artifact-block-id="zone_loss" data-artifact-block-type="chart" data-layout="full"><figure class="portable-content-card portable-chart-summary" data-artifact-id="lost_demand_by_zone_chart" data-artifact-kind="chart" data-chart-id="lost_demand_by_zone_chart" data-portable-visual-title="Lost demand proxy by zone" data-portable-source-host="true" tabindex="0" aria-label="Lost demand proxy by zone" aria-describedby="portable-source-tooltip-5"><figcaption class="portable-visual-header"><strong>Lost demand proxy by zone</strong></figcaption><div class="portable-inline-source" data-source-id="zone_hour_mart"><div class="portable-inline-source-content portable-source-tooltip-content" id="portable-source-tooltip-5" role="tooltip"><span class="portable-source-tooltip-heading" aria-hidden="true">Source for Lost demand proxy by zone</span><strong>Source: Synthetic hourly supply–demand mart</strong><span class="portable-source-meta">Tables: data/raw/car_statuses_hourly.csv, data/raw/rides.csv, data/raw/searches_hourly.csv, data/raw/zones.csv</span><p class="portable-source-description-data">Calendar-complete hourly synthetic supply, rides and search funnel by origin zone.</p><pre class="portable-source-query-data" aria-hidden="true"><code>-- Hourly supply–demand mart.
 -- Grain: one local hour × origin zone. Inputs are deterministic synthetic CSVs.
@@ -729,7 +731,8 @@ SELECT
     AVG(lost_demand_proxy) OVER (
         PARTITION BY zone_id ORDER BY hour_ts ROWS BETWEEN 167 PRECEDING AND CURRENT ROW
     ) AS rolling_7d_lost_demand_proxy
-FROM metrics;
+FROM metrics
+ORDER BY hour_ts, zone_id;
 </code></pre></div></div><div class="portable-static-chart" data-static-chart-id="lost_demand_by_zone_chart" data-static-chart-block-id="zone_loss" role="img" aria-label="Lost demand proxy by zone chart" style="max-width:768px"><div class="portable-static-chart-variant portable-static-chart-light" aria-hidden="true"><svg width="768" height="320" viewBox="0 0 768 320" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="portable-static-chart-svg" focusable="false" preserveAspectRatio="xMidYMid meet">
 <g opacity="1">
 <g opacity="1">
@@ -1318,7 +1321,8 @@ SELECT
     AVG(lost_demand_proxy) OVER (
         PARTITION BY zone_id ORDER BY hour_ts ROWS BETWEEN 167 PRECEDING AND CURRENT ROW
     ) AS rolling_7d_lost_demand_proxy
-FROM metrics;
+FROM metrics
+ORDER BY hour_ts, zone_id;
 </code></pre></div></div><div class="portable-table-source-region"><div class="portable-table-scroll"><table><caption>Hypotheses for relocation pilot</caption><thead><tr><th scope="col">Day type</th><th scope="col">Time window</th><th scope="col">Recipient</th><th scope="col">Donor</th><th scope="col" class="portable-table-number">Lost demand proxy</th><th scope="col" class="portable-table-number">Cars</th><th scope="col" class="portable-table-number">Priority score</th></tr></thead><tbody><tr><td>weekday</td><td>вечер (17–21)</td><td>Деловой квартал</td><td>Набережная</td><td class="portable-table-source-cell portable-table-number"><span class="portable-source-tooltip portable-source-value" data-portable-source-host="true" tabindex="0" aria-describedby="portable-source-tooltip-6"><span class="portable-source-value-text">27.5%</span><span class="portable-source-tooltip-content" id="portable-source-tooltip-6" role="tooltip"><span class="portable-source-tooltip-heading" aria-hidden="true">Source for 27.5%</span><strong>Source: Synthetic hourly supply–demand mart</strong><span class="portable-source-meta">Tables: data/raw/car_statuses_hourly.csv, data/raw/rides.csv, data/raw/searches_hourly.csv, data/raw/zones.csv</span></span></span></td><td class="portable-table-source-cell portable-table-number"><span class="portable-source-tooltip portable-source-value" data-portable-source-host="true" tabindex="0" aria-describedby="portable-source-tooltip-7"><span class="portable-source-value-text">3</span><span class="portable-source-tooltip-content" id="portable-source-tooltip-7" role="tooltip"><span class="portable-source-tooltip-heading" aria-hidden="true">Source for 3</span><strong>Source: Synthetic hourly supply–demand mart</strong><span class="portable-source-meta">Tables: data/raw/car_statuses_hourly.csv, data/raw/rides.csv, data/raw/searches_hourly.csv, data/raw/zones.csv</span></span></span></td><td class="portable-table-source-cell portable-table-number"><span class="portable-source-tooltip portable-source-value" data-portable-source-host="true" tabindex="0" aria-describedby="portable-source-tooltip-8"><span class="portable-source-value-text">6,049.2</span><span class="portable-source-tooltip-content" id="portable-source-tooltip-8" role="tooltip"><span class="portable-source-tooltip-heading" aria-hidden="true">Source for 6,049.2</span><strong>Source: Synthetic hourly supply–demand mart</strong><span class="portable-source-meta">Tables: data/raw/car_statuses_hourly.csv, data/raw/rides.csv, data/raw/searches_hourly.csv, data/raw/zones.csv</span></span></span></td></tr><tr><td>weekday</td><td>вечер (17–21)</td><td>Технопарк</td><td>Набережная</td><td class="portable-table-source-cell portable-table-number"><span class="portable-source-tooltip portable-source-value" data-portable-source-host="true" tabindex="0" aria-describedby="portable-source-tooltip-9"><span class="portable-source-value-text">29.6%</span><span class="portable-source-tooltip-content" id="portable-source-tooltip-9" role="tooltip"><span class="portable-source-tooltip-heading" aria-hidden="true">Source for 29.6%</span><strong>Source: Synthetic hourly supply–demand mart</strong><span class="portable-source-meta">Tables: data/raw/car_statuses_hourly.csv, data/raw/rides.csv, data/raw/searches_hourly.csv, data/raw/zones.csv</span></span></span></td><td class="portable-table-source-cell portable-table-number"><span class="portable-source-tooltip portable-source-value" data-portable-source-host="true" tabindex="0" aria-describedby="portable-source-tooltip-10"><span class="portable-source-value-text">3</span><span class="portable-source-tooltip-content" id="portable-source-tooltip-10" role="tooltip"><span class="portable-source-tooltip-heading" aria-hidden="true">Source for 3</span><strong>Source: Synthetic hourly supply–demand mart</strong><span class="portable-source-meta">Tables: data/raw/car_statuses_hourly.csv, data/raw/rides.csv, data/raw/searches_hourly.csv, data/raw/zones.csv</span></span></span></td><td class="portable-table-source-cell portable-table-number"><span class="portable-source-tooltip portable-source-value" data-portable-source-host="true" tabindex="0" aria-describedby="portable-source-tooltip-11"><span class="portable-source-value-text">4,960.3</span><span class="portable-source-tooltip-content" id="portable-source-tooltip-11" role="tooltip"><span class="portable-source-tooltip-heading" aria-hidden="true">Source for 4,960.3</span><strong>Source: Synthetic hourly supply–demand mart</strong><span class="portable-source-meta">Tables: data/raw/car_statuses_hourly.csv, data/raw/rides.csv, data/raw/searches_hourly.csv, data/raw/zones.csv</span></span></span></td></tr><tr><td>weekday</td><td>день (11–16)</td><td>Деловой квартал</td><td>Набережная</td><td class="portable-table-source-cell portable-table-number"><span class="portable-source-tooltip portable-source-value" data-portable-source-host="true" tabindex="0" aria-describedby="portable-source-tooltip-12"><span class="portable-source-value-text">13.2%</span><span class="portable-source-tooltip-content" id="portable-source-tooltip-12" role="tooltip"><span class="portable-source-tooltip-heading" aria-hidden="true">Source for 13.2%</span><strong>Source: Synthetic hourly supply–demand mart</strong><span class="portable-source-meta">Tables: data/raw/car_statuses_hourly.csv, data/raw/rides.csv, data/raw/searches_hourly.csv, data/raw/zones.csv</span></span></span></td><td class="portable-table-source-cell portable-table-number"><span class="portable-source-tooltip portable-source-value" data-portable-source-host="true" tabindex="0" aria-describedby="portable-source-tooltip-13"><span class="portable-source-value-text">3</span><span class="portable-source-tooltip-content" id="portable-source-tooltip-13" role="tooltip"><span class="portable-source-tooltip-heading" aria-hidden="true">Source for 3</span><strong>Source: Synthetic hourly supply–demand mart</strong><span class="portable-source-meta">Tables: data/raw/car_statuses_hourly.csv, data/raw/rides.csv, data/raw/searches_hourly.csv, data/raw/zones.csv</span></span></span></td><td class="portable-table-source-cell portable-table-number"><span class="portable-source-tooltip portable-source-value" data-portable-source-host="true" tabindex="0" aria-describedby="portable-source-tooltip-14"><span class="portable-source-value-text">3,475.1</span><span class="portable-source-tooltip-content" id="portable-source-tooltip-14" role="tooltip"><span class="portable-source-tooltip-heading" aria-hidden="true">Source for 3,475.1</span><strong>Source: Synthetic hourly supply–demand mart</strong><span class="portable-source-meta">Tables: data/raw/car_statuses_hourly.csv, data/raw/rides.csv, data/raw/searches_hourly.csv, data/raw/zones.csv</span></span></span></td></tr><tr><td>weekday</td><td>день (11–16)</td><td>Технопарк</td><td>Набережная</td><td class="portable-table-source-cell portable-table-number"><span class="portable-source-tooltip portable-source-value" data-portable-source-host="true" tabindex="0" aria-describedby="portable-source-tooltip-15"><span class="portable-source-value-text">18.9%</span><span class="portable-source-tooltip-content" id="portable-source-tooltip-15" role="tooltip"><span class="portable-source-tooltip-heading" aria-hidden="true">Source for 18.9%</span><strong>Source: Synthetic hourly supply–demand mart</strong><span class="portable-source-meta">Tables: data/raw/car_statuses_hourly.csv, data/raw/rides.csv, data/raw/searches_hourly.csv, data/raw/zones.csv</span></span></span></td><td class="portable-table-source-cell portable-table-number"><span class="portable-source-tooltip portable-source-value" data-portable-source-host="true" tabindex="0" aria-describedby="portable-source-tooltip-16"><span class="portable-source-value-text">3</span><span class="portable-source-tooltip-content" id="portable-source-tooltip-16" role="tooltip"><span class="portable-source-tooltip-heading" aria-hidden="true">Source for 3</span><strong>Source: Synthetic hourly supply–demand mart</strong><span class="portable-source-meta">Tables: data/raw/car_statuses_hourly.csv, data/raw/rides.csv, data/raw/searches_hourly.csv, data/raw/zones.csv</span></span></span></td><td class="portable-table-source-cell portable-table-number"><span class="portable-source-tooltip portable-source-value" data-portable-source-host="true" tabindex="0" aria-describedby="portable-source-tooltip-17"><span class="portable-source-value-text">3,208.75</span><span class="portable-source-tooltip-content" id="portable-source-tooltip-17" role="tooltip"><span class="portable-source-tooltip-heading" aria-hidden="true">Source for 3,208.75</span><strong>Source: Synthetic hourly supply–demand mart</strong><span class="portable-source-meta">Tables: data/raw/car_statuses_hourly.csv, data/raw/rides.csv, data/raw/searches_hourly.csv, data/raw/zones.csv</span></span></span></td></tr><tr><td>weekday</td><td>утро (07–10)</td><td>Деловой квартал</td><td>Набережная</td><td class="portable-table-source-cell portable-table-number"><span class="portable-source-tooltip portable-source-value" data-portable-source-host="true" tabindex="0" aria-describedby="portable-source-tooltip-18"><span class="portable-source-value-text">8.4%</span><span class="portable-source-tooltip-content" id="portable-source-tooltip-18" role="tooltip"><span class="portable-source-tooltip-heading" aria-hidden="true">Source for 8.4%</span><strong>Source: Synthetic hourly supply–demand mart</strong><span class="portable-source-meta">Tables: data/raw/car_statuses_hourly.csv, data/raw/rides.csv, data/raw/searches_hourly.csv, data/raw/zones.csv</span></span></span></td><td class="portable-table-source-cell portable-table-number"><span class="portable-source-tooltip portable-source-value" data-portable-source-host="true" tabindex="0" aria-describedby="portable-source-tooltip-19"><span class="portable-source-value-text">2</span><span class="portable-source-tooltip-content" id="portable-source-tooltip-19" role="tooltip"><span class="portable-source-tooltip-heading" aria-hidden="true">Source for 2</span><strong>Source: Synthetic hourly supply–demand mart</strong><span class="portable-source-meta">Tables: data/raw/car_statuses_hourly.csv, data/raw/rides.csv, data/raw/searches_hourly.csv, data/raw/zones.csv</span></span></span></td><td class="portable-table-source-cell portable-table-number"><span class="portable-source-tooltip portable-source-value" data-portable-source-host="true" tabindex="0" aria-describedby="portable-source-tooltip-20"><span class="portable-source-value-text">2,263.35</span><span class="portable-source-tooltip-content" id="portable-source-tooltip-20" role="tooltip"><span class="portable-source-tooltip-heading" aria-hidden="true">Source for 2,263.35</span><strong>Source: Synthetic hourly supply–demand mart</strong><span class="portable-source-meta">Tables: data/raw/car_statuses_hourly.csv, data/raw/rides.csv, data/raw/searches_hourly.csv, data/raw/zones.csv</span></span></span></td></tr><tr><td>weekday</td><td>утро (07–10)</td><td>Технопарк</td><td>Набережная</td><td class="portable-table-source-cell portable-table-number"><span class="portable-source-tooltip portable-source-value" data-portable-source-host="true" tabindex="0" aria-describedby="portable-source-tooltip-21"><span class="portable-source-value-text">9.7%</span><span class="portable-source-tooltip-content" id="portable-source-tooltip-21" role="tooltip"><span class="portable-source-tooltip-heading" aria-hidden="true">Source for 9.7%</span><strong>Source: Synthetic hourly supply–demand mart</strong><span class="portable-source-meta">Tables: data/raw/car_statuses_hourly.csv, data/raw/rides.csv, data/raw/searches_hourly.csv, data/raw/zones.csv</span></span></span></td><td class="portable-table-source-cell portable-table-number"><span class="portable-source-tooltip portable-source-value" data-portable-source-host="true" tabindex="0" aria-describedby="portable-source-tooltip-22"><span class="portable-source-value-text">2</span><span class="portable-source-tooltip-content" id="portable-source-tooltip-22" role="tooltip"><span class="portable-source-tooltip-heading" aria-hidden="true">Source for 2</span><strong>Source: Synthetic hourly supply–demand mart</strong><span class="portable-source-meta">Tables: data/raw/car_statuses_hourly.csv, data/raw/rides.csv, data/raw/searches_hourly.csv, data/raw/zones.csv</span></span></span></td><td class="portable-table-source-cell portable-table-number"><span class="portable-source-tooltip portable-source-value" data-portable-source-host="true" tabindex="0" aria-describedby="portable-source-tooltip-23"><span class="portable-source-value-text">1,916.25</span><span class="portable-source-tooltip-content" id="portable-source-tooltip-23" role="tooltip"><span class="portable-source-tooltip-heading" aria-hidden="true">Source for 1,916.25</span><strong>Source: Synthetic hourly supply–demand mart</strong><span class="portable-source-meta">Tables: data/raw/car_statuses_hourly.csv, data/raw/rides.csv, data/raw/searches_hourly.csv, data/raw/zones.csv</span></span></span></td></tr><tr><td>weekday</td><td>вечер (17–21)</td><td>Центр</td><td>Набережная</td><td class="portable-table-source-cell portable-table-number"><span class="portable-source-tooltip portable-source-value" data-portable-source-host="true" tabindex="0" aria-describedby="portable-source-tooltip-24"><span class="portable-source-value-text">2.3%</span><span class="portable-source-tooltip-content" id="portable-source-tooltip-24" role="tooltip"><span class="portable-source-tooltip-heading" aria-hidden="true">Source for 2.3%</span><strong>Source: Synthetic hourly supply–demand mart</strong><span class="portable-source-meta">Tables: data/raw/car_statuses_hourly.csv, data/raw/rides.csv, data/raw/searches_hourly.csv, data/raw/zones.csv</span></span></span></td><td class="portable-table-source-cell portable-table-number"><span class="portable-source-tooltip portable-source-value" data-portable-source-host="true" tabindex="0" aria-describedby="portable-source-tooltip-25"><span class="portable-source-value-text">1</span><span class="portable-source-tooltip-content" id="portable-source-tooltip-25" role="tooltip"><span class="portable-source-tooltip-heading" aria-hidden="true">Source for 1</span><strong>Source: Synthetic hourly supply–demand mart</strong><span class="portable-source-meta">Tables: data/raw/car_statuses_hourly.csv, data/raw/rides.csv, data/raw/searches_hourly.csv, data/raw/zones.csv</span></span></span></td><td class="portable-table-source-cell portable-table-number"><span class="portable-source-tooltip portable-source-value" data-portable-source-host="true" tabindex="0" aria-describedby="portable-source-tooltip-26"><span class="portable-source-value-text">1,287.1</span><span class="portable-source-tooltip-content" id="portable-source-tooltip-26" role="tooltip"><span class="portable-source-tooltip-heading" aria-hidden="true">Source for 1,287.1</span><strong>Source: Synthetic hourly supply–demand mart</strong><span class="portable-source-meta">Tables: data/raw/car_statuses_hourly.csv, data/raw/rides.csv, data/raw/searches_hourly.csv, data/raw/zones.csv</span></span></span></td></tr><tr><td>weekday</td><td>утро (07–10)</td><td>Южный жилой</td><td>Набережная</td><td class="portable-table-source-cell portable-table-number"><span class="portable-source-tooltip portable-source-value" data-portable-source-host="true" tabindex="0" aria-describedby="portable-source-tooltip-27"><span class="portable-source-value-text">4.3%</span><span class="portable-source-tooltip-content" id="portable-source-tooltip-27" role="tooltip"><span class="portable-source-tooltip-heading" aria-hidden="true">Source for 4.3%</span><strong>Source: Synthetic hourly supply–demand mart</strong><span class="portable-source-meta">Tables: data/raw/car_statuses_hourly.csv, data/raw/rides.csv, data/raw/searches_hourly.csv, data/raw/zones.csv</span></span></span></td><td class="portable-table-source-cell portable-table-number"><span class="portable-source-tooltip portable-source-value" data-portable-source-host="true" tabindex="0" aria-describedby="portable-source-tooltip-28"><span class="portable-source-value-text">1</span><span class="portable-source-tooltip-content" id="portable-source-tooltip-28" role="tooltip"><span class="portable-source-tooltip-heading" aria-hidden="true">Source for 1</span><strong>Source: Synthetic hourly supply–demand mart</strong><span class="portable-source-meta">Tables: data/raw/car_statuses_hourly.csv, data/raw/rides.csv, data/raw/searches_hourly.csv, data/raw/zones.csv</span></span></span></td><td class="portable-table-source-cell portable-table-number"><span class="portable-source-tooltip portable-source-value" data-portable-source-host="true" tabindex="0" aria-describedby="portable-source-tooltip-29"><span class="portable-source-value-text">915.45</span><span class="portable-source-tooltip-content" id="portable-source-tooltip-29" role="tooltip"><span class="portable-source-tooltip-heading" aria-hidden="true">Source for 915.45</span><strong>Source: Synthetic hourly supply–demand mart</strong><span class="portable-source-meta">Tables: data/raw/car_statuses_hourly.csv, data/raw/rides.csv, data/raw/searches_hourly.csv, data/raw/zones.csv</span></span></span></td></tr><tr><td>weekend</td><td>вечер (17–21)</td><td>Набережная</td><td>Деловой квартал</td><td class="portable-table-source-cell portable-table-number"><span class="portable-source-tooltip portable-source-value" data-portable-source-host="true" tabindex="0" aria-describedby="portable-source-tooltip-30"><span class="portable-source-value-text">3.4%</span><span class="portable-source-tooltip-content" id="portable-source-tooltip-30" role="tooltip"><span class="portable-source-tooltip-heading" aria-hidden="true">Source for 3.4%</span><strong>Source: Synthetic hourly supply–demand mart</strong><span class="portable-source-meta">Tables: data/raw/car_statuses_hourly.csv, data/raw/rides.csv, data/raw/searches_hourly.csv, data/raw/zones.csv</span></span></span></td><td class="portable-table-source-cell portable-table-number"><span class="portable-source-tooltip portable-source-value" data-portable-source-host="true" tabindex="0" aria-describedby="portable-source-tooltip-31"><span class="portable-source-value-text">1</span><span class="portable-source-tooltip-content" id="portable-source-tooltip-31" role="tooltip"><span class="portable-source-tooltip-heading" aria-hidden="true">Source for 1</span><strong>Source: Synthetic hourly supply–demand mart</strong><span class="portable-source-meta">Tables: data/raw/car_statuses_hourly.csv, data/raw/rides.csv, data/raw/searches_hourly.csv, data/raw/zones.csv</span></span></span></td><td class="portable-table-source-cell portable-table-number"><span class="portable-source-tooltip portable-source-value" data-portable-source-host="true" tabindex="0" aria-describedby="portable-source-tooltip-32"><span class="portable-source-value-text">662.95</span><span class="portable-source-tooltip-content" id="portable-source-tooltip-32" role="tooltip"><span class="portable-source-tooltip-heading" aria-hidden="true">Source for 662.95</span><strong>Source: Synthetic hourly supply–demand mart</strong><span class="portable-source-meta">Tables: data/raw/car_statuses_hourly.csv, data/raw/rides.csv, data/raw/searches_hourly.csv, data/raw/zones.csv</span></span></span></td></tr><tr><td>weekday</td><td>день (11–16)</td><td>Университетский</td><td>Набережная</td><td class="portable-table-source-cell portable-table-number"><span class="portable-source-tooltip portable-source-value" data-portable-source-host="true" tabindex="0" aria-describedby="portable-source-tooltip-33"><span class="portable-source-value-text">1.3%</span><span class="portable-source-tooltip-content" id="portable-source-tooltip-33" role="tooltip"><span class="portable-source-tooltip-heading" aria-hidden="true">Source for 1.3%</span><strong>Source: Synthetic hourly supply–demand mart</strong><span class="portable-source-meta">Tables: data/raw/car_statuses_hourly.csv, data/raw/rides.csv, data/raw/searches_hourly.csv, data/raw/zones.csv</span></span></span></td><td class="portable-table-source-cell portable-table-number"><span class="portable-source-tooltip portable-source-value" data-portable-source-host="true" tabindex="0" aria-describedby="portable-source-tooltip-34"><span class="portable-source-value-text">1</span><span class="portable-source-tooltip-content" id="portable-source-tooltip-34" role="tooltip"><span class="portable-source-tooltip-heading" aria-hidden="true">Source for 1</span><strong>Source: Synthetic hourly supply–demand mart</strong><span class="portable-source-meta">Tables: data/raw/car_statuses_hourly.csv, data/raw/rides.csv, data/raw/searches_hourly.csv, data/raw/zones.csv</span></span></span></td><td class="portable-table-source-cell portable-table-number"><span class="portable-source-tooltip portable-source-value" data-portable-source-host="true" tabindex="0" aria-describedby="portable-source-tooltip-35"><span class="portable-source-value-text">657.3</span><span class="portable-source-tooltip-content" id="portable-source-tooltip-35" role="tooltip"><span class="portable-source-tooltip-heading" aria-hidden="true">Source for 657.3</span><strong>Source: Synthetic hourly supply–demand mart</strong><span class="portable-source-meta">Tables: data/raw/car_statuses_hourly.csv, data/raw/rides.csv, data/raw/searches_hourly.csv, data/raw/zones.csv</span></span></span></td></tr><tr><td>weekend</td><td>вечер (17–21)</td><td>Южный жилой</td><td>Деловой квартал</td><td class="portable-table-source-cell portable-table-number"><span class="portable-source-tooltip portable-source-value" data-portable-source-host="true" tabindex="0" aria-describedby="portable-source-tooltip-36"><span class="portable-source-value-text">5.3%</span><span class="portable-source-tooltip-content" id="portable-source-tooltip-36" role="tooltip"><span class="portable-source-tooltip-heading" aria-hidden="true">Source for 5.3%</span><strong>Source: Synthetic hourly supply–demand mart</strong><span class="portable-source-meta">Tables: data/raw/car_statuses_hourly.csv, data/raw/rides.csv, data/raw/searches_hourly.csv, data/raw/zones.csv</span></span></span></td><td class="portable-table-source-cell portable-table-number"><span class="portable-source-tooltip portable-source-value" data-portable-source-host="true" tabindex="0" aria-describedby="portable-source-tooltip-37"><span class="portable-source-value-text">1</span><span class="portable-source-tooltip-content" id="portable-source-tooltip-37" role="tooltip"><span class="portable-source-tooltip-heading" aria-hidden="true">Source for 1</span><strong>Source: Synthetic hourly supply–demand mart</strong><span class="portable-source-meta">Tables: data/raw/car_statuses_hourly.csv, data/raw/rides.csv, data/raw/searches_hourly.csv, data/raw/zones.csv</span></span></span></td><td class="portable-table-source-cell portable-table-number"><span class="portable-source-tooltip portable-source-value" data-portable-source-host="true" tabindex="0" aria-describedby="portable-source-tooltip-38"><span class="portable-source-value-text">598.65</span><span class="portable-source-tooltip-content" id="portable-source-tooltip-38" role="tooltip"><span class="portable-source-tooltip-heading" aria-hidden="true">Source for 598.65</span><strong>Source: Synthetic hourly supply–demand mart</strong><span class="portable-source-meta">Tables: data/raw/car_statuses_hourly.csv, data/raw/rides.csv, data/raw/searches_hourly.csv, data/raw/zones.csv</span></span></span></td></tr><tr><td>weekend</td><td>вечер (17–21)</td><td>Центр</td><td>Деловой квартал</td><td class="portable-table-source-cell portable-table-number"><span class="portable-source-tooltip portable-source-value" data-portable-source-host="true" tabindex="0" aria-describedby="portable-source-tooltip-39"><span class="portable-source-value-text">1.7%</span><span class="portable-source-tooltip-content" id="portable-source-tooltip-39" role="tooltip"><span class="portable-source-tooltip-heading" aria-hidden="true">Source for 1.7%</span><strong>Source: Synthetic hourly supply–demand mart</strong><span class="portable-source-meta">Tables: data/raw/car_statuses_hourly.csv, data/raw/rides.csv, data/raw/searches_hourly.csv, data/raw/zones.csv</span></span></span></td><td class="portable-table-source-cell portable-table-number"><span class="portable-source-tooltip portable-source-value" data-portable-source-host="true" tabindex="0" aria-describedby="portable-source-tooltip-40"><span class="portable-source-value-text">1</span><span class="portable-source-tooltip-content" id="portable-source-tooltip-40" role="tooltip"><span class="portable-source-tooltip-heading" aria-hidden="true">Source for 1</span><strong>Source: Synthetic hourly supply–demand mart</strong><span class="portable-source-meta">Tables: data/raw/car_statuses_hourly.csv, data/raw/rides.csv, data/raw/searches_hourly.csv, data/raw/zones.csv</span></span></span></td><td class="portable-table-source-cell portable-table-number"><span class="portable-source-tooltip portable-source-value" data-portable-source-host="true" tabindex="0" aria-describedby="portable-source-tooltip-41"><span class="portable-source-value-text">502.2</span><span class="portable-source-tooltip-content" id="portable-source-tooltip-41" role="tooltip"><span class="portable-source-tooltip-heading" aria-hidden="true">Source for 502.2</span><strong>Source: Synthetic hourly supply–demand mart</strong><span class="portable-source-meta">Tables: data/raw/car_statuses_hourly.csv, data/raw/rides.csv, data/raw/searches_hourly.csv, data/raw/zones.csv</span></span></span></td></tr></tbody></table></div></div></section></div>
 <div class="portable-block portable-layout-full" data-artifact-block-id="caveats" data-artifact-block-type="markdown" data-layout="full"><section class="portable-markdown"><h2>Caveats and assumptions</h2>
 <p>Данные синтетические. Почасовой статус округляет внутрисчасовую занятость. Lost demand proxy — нижняя граница ненаблюдаемого спроса; не делать причинных выводов без эксперимента.</p></section></div></div><section class="portable-sources" aria-labelledby="portable-sources-heading"><h2 id="portable-sources-heading">Sources</h2><ol><li><strong>Synthetic hourly supply–demand mart</strong><span class="portable-source-meta">sql/01_zone_hour_supply_demand.sql · DuckDB · 2026-08-12T00:00:00Z</span><p>Calendar-complete hourly synthetic supply, rides and search funnel by origin zone.</p><details class="portable-source-query" open><summary>SQL query</summary><pre><code>-- Hourly supply–demand mart.
@@ -1432,7 +1436,8 @@ SELECT
     AVG(lost_demand_proxy) OVER (
         PARTITION BY zone_id ORDER BY hour_ts ROWS BETWEEN 167 PRECEDING AND CURRENT ROW
     ) AS rolling_7d_lost_demand_proxy
-FROM metrics;
+FROM metrics
+ORDER BY hour_ts, zone_id;
 </code></pre></details></li><li><strong>Synthetic fleet daily mart</strong><span class="portable-source-meta">sql/03_fleet_daily_summary.sql · DuckDB · 2026-08-12T00:00:00Z</span><p>Fleet roll-up recalculates rates from components rather than averaging zone rates.</p><details class="portable-source-query" open><summary>SQL query</summary><pre><code>-- Fleet roll-up uses raw components, not an average of zone-level percentages.
 WITH fleet_daily AS (
     SELECT
@@ -1806,109 +1811,109 @@ ORDER BY calendar_date;
 })();</script>
 <div id="data-analytics-portable-reader" aria-hidden="true" inert></div>
 <template id="data-analytics-portable-artifact-payload-source" data-compression="gzip-base64">
-H4sIAAAAAAACE+09227cRpa/UujBwrJX6rAuLJIy9kEjK7EWthxIcjK7Y6NBd1MW4RbZYbPtaAID
-tjPZzCKZZDEJME+D2dkB9nHhOFbiXOw87A90/0K+ZM8psrtZvHSLojfZZNawLbEup879Ul2sfqcV
-3mmtx9HIW23d83u3vbgTHw+81nrLjWL/wO3GrdXWcBTBb9gYeYMwwqYjN/APvGHcWn+nddeLhn4Y
-tNbpaiv24z4OHP918mj8bPwN/Pty/HjyL+Nnk4/J+PH4CTS/GH8HTQ/GX48fk/EzMv4M2r+Bf88n
-D8nk4fg76HoBPx/DMre9wIvc2OttwEotZjC5ZthrlO0bxrr6+88wqHsIuA5b679+p+X3YNg9z7vT
-P+7EkRf0OqqzNUfsTdVJRrHf93/jxoA3cYMe6YbBlAyk99Z0+N5xEB96sd8lsLhJem7sXiSI0ZC4
-kUcir+v2u6M+okgOovCIJIuTYHSEiIfRUIHveUF45AeqoY3YJDzu+4EHTwh16MU51BGRcBR1vW0k
-6qDvgWx6rg/dRwlJXtANe35we4hCeBv/O/C9/pQDnWGcUp6sFXtHIDu337q/2jrODkZq5sPeGrkB
-EA+cuevh0G7YD6Ps8CMvjvzufEJCGIC9f381FUA/HAKqHuhIr3PruPObMPAKcrgCY0gyhgyi8O1j
-cuuY4Mgc/w+RzeEBGXpu1D0EtseHbkwO3R4JQuLeBX64t/oe6boR8QPohMGRfxt+RVgXycGo309E
-N5xJcuBFftjLiOGWG2lSUAgDEUNdBKr5EJ6XC0ANDdwjr4RPOfZnmaUYUSWL+/dvQg9Sm9H1AZAS
-+TGoDHZk+Hv5eBACvUPg2EEYgaL2w26i7gO/H8Y6l3fd4A4ocDhA6x4Ffux7w4vA4JiAiftHSru7
-7mjo9ol/NACn0Nb4NUNivsoy1vW8A3fUj/fQm2SYMYM07IaRMg0fTCxW3gXmDLupSo6OgoQJ04k9
-9zhxXKstUAivD02X3GOimlAvp+MUDrcAyzuZkfv+kUfu+UEvvKcNhqX9ge8FcSdVzOmE3WmHNrwX
-BmGUH3oJG7VhZQKfji5YBfSB+EACyBwP2JlbE1AMj47AW3jg6txomIG1mTzOpoNLuuXpqBTYPZ37
-etpBph0FKDdRGxMJZ9SxIOcpwLkfxV5wkMPRYNA//v7BJym16fiBGx/C8OFb/VcM2pmDS4anbGtD
-d2vmbUo8Y3FVNYioQWVL8U4WynB0BGOOk2VulsY/pUIZwhNLmlkuTL8D2oTB5FbYA3tv/YK8lJA4
-o9p72+uO0DFMsS1dfJEJThH7BdmawiJ7CawbwY1gjVy4INri7wig9gJwfQjIvRg/uXCBIPrjJ+OT
-yYPJ7xKCJg8nHyLSJ+Mv5xR9C/8+w34k8wlRo96Dtqfj5/D/VwjmBfx60k7WKmUPk4ABLgk8+VoN
-T9Z9qHovXJC87WA/YgfNH0D348lHk0fpaIByAv8/AvY9QxZiN8B4DgNPCCByMvktdOBSjyYfKDzG
-/w4zvoGRXyc4wMLfP/iUTH4P8EEOuDg0fpuARSFNPgSAj5HEz6EDWAXNJ0jBOsEO4MA3k49gqceq
-XQ1XqwO0J5OPYeAzHKewUYuOv8xS8Z3C/H2AnGD9FWAy+S1gfQL4PGpnjAC8F0SiTpJALNOFEpOZ
-a8P4L4oAZPZz1DrgzYdKAE8VGo+B+meIKSoJiO0vgCKqw3NoRbxxNBD3DXJi8gEQN3l3/AVCglai
-xJ9AUdoEJH1LFNnfIEsVnx4oSr+divCRovVholJt1IU/QctTjZkokETKMOkZSeXzMfIQZqL6qREI
-5EShgRr8NNEFpYuAcIHmyUea6WWYncvSUlZPMxz1c7siES0ILE0zzmq640+QFUrVUjVJJACa+CyR
-QSKmYrqlxPYcRAOWASI6QXVDDXyOLuipslpkl2Ja1njA8FYJjkGtVUC+VMx9kNNWmPA5Cj2jr8BE
-lN8fEIPeSIX1tblBo+CU/QCUk/Fnk3dn4tva31gliS2PH8PiaGOJiD9AxVRIgFrBjIfKjpT83gVg
-qSzHzzLCyyZ3lZKrzmBncGaRd5bvVPt+ZVSo4U8VVf8KxILO/Q7Q/hzFM/4j/PYdoq94nViQ4sNj
-1TB1UroH+4qINRSCZgtfZSSPmu72Z3kfhWDLZ+65TSDGo68nSUK/nmbYa3G4disM72Qqoovk9siN
-ehG4i3XSLygS+vbUla8pL4ZcBxFmeF7MUtOaZPqIP7dLRs4gdN27nhsv4/JmMkqVXO4QAuNAyUbx
-+NOM61fqplyL4u/7qOboOQBpMv4zoP8+cP6h4nbiHVB3UacSF/a1spjP0UYSu3mCXi4NMw/nk1HY
-ia9BZ/Ro6ljapGiNGGSUC/1CjcVwkhooij6xNj2ewPO3UxvLuKmLs3CCcWzqDPQwMnmPKNf7RLnj
-FyjAJHZXhbk25nvgkgJ3MDwMC0X/qap0KEfj0VAZjts7ntcPqnjSPComVZkKVkEUAG6NU5imytV1
-o82EyZklGXdWpzXpeuv6vKxXupMHY64ZdM2wsmC4KS0HUDbrgqFCw8agpulYJqsLhulEUcsAlMza
-2DA7C4ZxbnNhC1kPDFszNKK4dKRhC8HrgqE0B4YZ0jDt2mA0ogR3HFtYhlMXDDNz2FjUduyaRPEc
-bwRzLMcRzKoLRueNCVTZFhV2bTC2DkZwSwpu1gWj80ZSKZhp2TX1RoAGaryxLIsbsi5vAIxOFOcm
-kw6tDYZqRFnUsqgpGKsLhjGNN4JyaQJVtcE4GhiT2pYw62IDf6VGlGkK0zIorwuG8iwYm4PEwZHa
-dcEwQwMjwB2bzK5NFLN0ohwqqWnUJArCjUaU5XDwx6Zp1QVDdaIMhztS1DUGAKMTBcpHpWPTumCY
-5m8scOeC2rImGCtnmg4XpgGxitcGo5mmbRlom3ZdKLplOtJ2GIfYUBeMbpngzw1QG9usDUazTMew
-LGnbdV2xDXqsc5gy05YGqwuG6kRRUBubG2ZtMDpR3HQgMlCnLhimuRvbthzbEHWTLQfCr4aNsLiA
-bI7VBuPoXgt4DJ6L1gVDcz4UPIVwatPEct6GGrbDuawLhhs5N2GDAtYMdtTIpbMWqI1BLVYXip7N
-mpDZQJiqmSMBGD2bhQzAtqQlnNpg9DyAGQbkJTVNgdJcxmYK2wFXwWuDyWVs3ADGODVNAcHo2Sw4
-CWqDfdYFo2dswqZCWMKqiQ3LGSbYJdQMoi6LWc4wIfGDCA7pbF0wumEib4Th1CdKt0zuQLGA6Wxd
-MLplQgYAHscx6xh4sV6VUoInhtwm67T2qvZcTlm9Akjb5hbTaqIzANWsX5oqS+CaEzkDUKaTzw0H
-eKhp2FmAZo1IAqKQQJiNWJoreiHFR6h6EnoGoJrTkBxSW/CqTDYEqlFv2syUArxaM6CaQ4EakkIw
-s1gj4eeKZQDKqeEILSM/A1Cdp6YlQUy2bApU56mglAp9r+IMQHWeggsCj2Y6ognQXJENPsk2IQ03
-WUOgGvm4VeMIachmQKmuUrYNVa/JzWZAtaRfQhppU4tbDXmqlQBAvmVLR9JG5OdKdSkkVBVQ5NjN
-gGqFOzgUB43fZs2AamU8bk1QBxyqaAhUC1Gc28KSjDVy0rkSX3KwUkNQqxlMrd6HAMUo1OrSaQhU
-o54Ky5SSNdP93F6ANMDpM8obyT63MQCqLw2bC2E2BJpzJ8AAMHzRDKjuTjgUxdSxmsnJyrsTiPvc
-kZbVEKjmThjgapqO0Qhobn8B1FRCZmwysxlQbbdBQo3FhKCyKVCNfIG+hDrN0rPcToRkBsWd7mbu
-JLcvAY5PcEhSmuV8uV0KCNAGYmuazYBSnXxqO4YJ5VozoFqhJLHWl6BTohlQrrtTZfrCaRL28tsb
-mEdTUFbhNAOq1ztQIkIubZq8GVC93uGCQ8wzmmKaq3fATWEZ2URQ+X0RaXLbNqiwzWZAcwWPKQyD
-243MNL9ngtmpdAzBGmKqJ+fcRq2yGkXT/H4K7lY5pmUK3hCo7k/t9G8zoLpDgejs2ELf9T4D0JxD
-cSCRAKVqyNOcQ6GmkJSLU0bTm6uZsz54pmB+KHu9Nf6P8cnkPXVKKT15iUcU0jPmrXUOyRVo7igY
-etFdr9eZ9wjHgo7iGV5AkEI5hrWjZSFB2mqfpqcKk/Mk46/VSbkHyQlCbWGoPqVRujDSXrUwZ5C4
-4EGGwsL/pQ6UqHNBXyTngsZfaQsyYeInFSULWugQStczOEPTNmhhub+mxwCnZzTVCZv0bE1hXV5O
-KCTLVesykzuWsJhZWBjPLKpll1DLOSun1sRaomJVRiVu8hfJ/UN6vgwPDC1elzGnQp9wr7R8XWqb
-QCqUZIV1/3N6rFVXWqZOI5Qswu1K4iiFaAKJWhltILYvp2dck8On70LDSU5luUGdckkyPH9Svqxh
-Q8DhDi9KUp2FUwf6FnPUsCqIpdKqXtUwLcq4LKz6J3W06kQdPfwiOdGrLwfVgShfTlSaCSzmMMpY
-0Sz/nPgcdXoRj4p9NvlAnUTTF6UWx43dMts0KtcUUBxSbhcF+m+T36sThHjGElyPvpItRPlKvHol
-SMQkJDgCPW3pKyDodGcvZiTHYeERFs68hQGIod2+r06QrlDr+wefMHoe3b7+8sVyJ5p5/aJSoGUE
-MjSO5LkThx2MI51MHAFSORSGXNqmUSVpZmHxaAn8iGCOt9/re/hShjq6q5wASjNBs9BnGvihaOF1
-jnW+mn9LYx3Kf6fN8B2aro8odoIwVjR/op9Anx3jTQ4SPlVn8vF0vXaSND1DOD82qo7YqjOEL9Iz
-t+qthFMc7lWB/CUKvCxGn1HKzMIjLoulbFhQAOOucpWUHYnlLOYf1UKmYPIvQ8jCkYDST1jIT1WM
-+hBEjAePqfwhbZpyrI8XSlsw7gioehxZmVRRqDUM9UlAtbi5hQDKxQ1ZmRSnFDdktWab/uzF/RIt
-mpp0mYy5Y5o2t3llQkltG9JJ5dcXiFiIlyNiZthty/zpyjg94v6CrBjotanxQ5q0OpO6UNpQIEHJ
-TS2zqkwybMEldShm4tXiFhaWwuXihowcj30Uxc2K4mZM8jb/+Yv7JZq0xAMfi722Y9oSXDerTPEd
-aXM8J+4slDEz2MuQMaiSbDPzbyAVy1acZ3XYzjJ/LZntSCqYqN4AYA7UcJQulC74AF47BaMl0oXK
-4Kcck09pwBVbRGeW8jIbNiWU7iBnXmnDglkGt9XrA9VSNml15lVpwyVSdqjZFj8VE05eOD2bCZeL
-UBfzkthdmmovk7fkjFmWYVO7cjtRUAHZ+OIszMDP0crFLSUeVD2VtKVkbcf82efZy/Zhz2jc5rIc
-TBoOsxxDWV/FfiOzuOmYki8StuNYZu2Uu0zapvWTqaGbmPapXPgZbFuIZb6cGZwaFLc8ysVtckjI
-LctcaNtMpeSNbdt07Lb8W/Dk1clYfRmb1tKkzDKZKVn1pzJUSoca0l64UcIc3GZtLmOD/R/d+rwJ
-0vTcnrrSCze+MzeMdTLvEArmMMPiFjWt5d6UO9wwpMmFtC270saE4LZlCI6fbFgGZtmR30tyMdtx
-jPs3798/zVU9b428SN1M5QW3FRGtS6PunUu/xA8K3sLbdNbWyOXqy3vw+pQ18lrk+sE6AdgEPwfo
-q+t+yH//MXsrV5tsB4NRnNyg1vNiLzryA3+I1/TML+na3HtjCCDf3N6/TG6Fo6A3JBt7ZOVGQODP
-3taVrc395Hf8c3V7Z2VzY29/RdETq6H721e39vY3rr5+/jw+HvgR8A77VzPzNn61bF7fTacls17d
-vXYVLxvrJK+ze8NOcp/RjeA8wAWC8UKIVLELCJN0mQyohLQMSmT6Mj3YaOR7w5UM4nNkVsn2zv7W
-7hsbVwgll69d31W4pjPSVc7ncLoNWlFESUe5nc5dVYIatpWS+D2N9uz4pGNz99reHvnHa9s7ybRk
-4YRDeH2G0oFq6VVLAJ+mGM3Hp0hlWvauX12Z3QXXAW0axd5QzZ63otDSntxMHwwUDEabl2vLz+jl
-lsk2ZMZuXru+s79yaXtvf3sHeA2EbpE3L2/tkIQ3IESycm6G4rlVci5d99x5so/jEGmQ2tbOpYSa
-rrrxCb3jMnXE3td2r11/nfzynwhdJSwRivIMp5BJDzUwjkZBd+UcDgXclJjUCQ1w0G5cYitFUSVW
-30klhmOKwkuYdEFBSNBLF8kxvTeKEm+aZTx6TUAnK6sMZxS4Sl5Mg+APoqLoahRdeOmPppUJIRV9
-OR5MUU7NPXnIjUGW4KWEM/7gQ25MIRFQgwuteRO7Bc4eKMtNKzZnRDBj8hLFhNg/6HuoWqV+ao4I
-dreLHFfNZcq1cWVrb3NrJTGQdrk/IMapnEUeWN5JpGCqfUcBQNZtTGdXuZIcIXNXMEM/01QyURlD
-W7ewdGaV2eXmlhjbFEJZVxnyqTa0q9Q9BbfcGkpATpV2CqOoxMVJM/vI0JGzl+Kkop2ksxcZUBFM
-0W5mklxkUYWAjj+T/itbr+4ncbgYfJOWOT7XdjRTIv+Qjpg1bOxc0qxqPkLLCuZrFmJLxv2Wr5io
-1YIFkwEV65X5b51fFXROBbCI0umY2dropJJjh4sy0dOEgnwwubSxv6XEPpMsRt/MhK1f7e9ubO6n
-kTjRgmmSN4s/4QFMOy6b5Q/DXnivZB50dNJ9Jh29NEtZAgGzF7lKrDRXOZeWtefI1hWAcC6FfA6z
-F1xtWgBnllrmcKs9aYWXLHeBVe5tsdNa7oNKrLzEfyxyCiUuoJJ68grZuX7lyvar+YSV/D1ZGNby
-legyAZx5ISWU3Aoa7+eQTwv6PEyRUOPqkWrgRZ25qEvYP1+oPCqUFNyLJFYNrlCRl6jHfHYVu7MU
-zoB5w+Eo8rKOX0uRwCPdCLLuJ3VO7QspClc2Xlup4Om1N7Z2px4M/7y+sbu/vb8NrhJysqkTvLZ7
-CUZBg1a1KhwBubt+OEqSus4iK95447WVSpafERGye+3NPfLLrf03t8DtUGmR13e3Nrcube+8plz5
-5vXd3a2dfRyWwTkK+320ZqtXFDpiWZDkj4VdAZEbgRJ/Kt+LNwJ1f/awG/mD9GbszTRwrE1VZHbL
-8mw/JdmyWU0MSF2QmIiFHIyCwOvj7evZLZrppYzDDlSVeCWfuq7vlci990pJudnuDu+mN/qpIUnY
-zjXmKoF8d7LhgI03V1sHfj/2cAvw163c5e1qV2lNhXucChDcfn+2adJLNiCgNQhJ5Ll90h0N4/DI
-i4A6Eg6SO/mTmbBMcomyKmerLy7su8HtkXvbS+6KxgvIf5xLrU+zP/equuYalWltNCAoIQK8VZ4D
-Vg1wYwdvdXcD8LbAi9vqan1EaK3v3QUtSK8Yh47Z5lsGkwV5T1Xqou/MaE7oR9+dwbFaeFq6BfED
-l98Z3486MNecfBVdiAVl4ljE7HKGlvCtjDs5RuRorkp//pezmx8u72iec7yEfAMj2MvgaDHozeKb
-plN6lJN1Y1xeaGmIy/iaG0H5wmXhT/d6me9kGaZf1aK+mWXuBLH1EEJCfDhzhICX8oPJhKrwBxzv
-Qlrm9V7R7fG0YQtKoJcfexp9tcHA7d4B+B0/OAgxtky/9Wd3FMS+em8Ev/AAWbE27VrDC3y9qH0Y
-H/WVKPpgD9Hx1bCXHd5Juw9BYb3eLky5FvSPp181dFQ+ePp8GR/ToVFuKlhPDKJW1wZ3w8HxxnD7
-SHHowO0PPYWPF2ceQbizB6/nx/OHt9V3OeiPlxW6V/zgzqwDv0IGtM3zglnTYXHUAC0aWoPufO3I
-O4As/jDzHEbAudnzEL/cJn3Cz+hSYWz/vyx+bFnc/x/yZ7ZwGGsAAA==
+H4sIAAAAAAACE+09bW/bRpp/ZaDFIU7OVjkvHJIO7oPXcRsfEqewnXbvNoHASHRMRCZVikrqLQIk
+6fa6h3bbw7bAflrs7S1wHw9pGrfpS9IP9wekv9Bfcs8zpCQOXyTTzLXX7gV5I2fmeX8djcbvtMI7
+rfU4GnmrrXt+77YXd+Ljgddab7lR7B+43bi12hqOIvgfvoy8QRjhqyM38A+8Ydxaf6d114uGfhi0
+1ulqK/bjPk4c/3XyaPxs/A38+XL8ePIv42eTj8n48fgJvH4x/g5ePRh/PX5Mxs/I+DN4/w38eT55
+SCYPx9/B0Av49zGgue0FXuTGXm8DMLWYweSaYa9Rtm8Y6+r3P8Ok7iHQOmyt//qdlt+Dafc8707/
+uBNHXtDrqMHWnLA31SAZxX7f/40bA93EDXqkGwZTNpDfW9Ppe8dBfOjFfpcAcpP03Ni9SJCiIXEj
+j0Re1+13R30kkRxE4RFJkJNgdISEh9FQge95QXjkB+pFG6lJZNz3Aw+eEOrQi3OkIyHhKOp628jU
+Qd8D3fRcH4aPEpa8oBv2/OD2EJXwNv514Hv9qQQ6wzjlPMEVe0egO7ffur/aOs5ORm7m094auQEw
+D5K56+HUbtgPo+z0Iy+O/O58QcIYgL1/fzVVQD8cAqke2Eivc+u485sw8Ap6uAJzSDKHDKLw7WNy
+65jgzJz8D1HM4QEZem7UPQSxx4duTA7dHglC4t4Febi3+h7puhHxAxiEyZF/G/6LsC6Sg1G/n6hu
+ONPkwIv8sJdRwy030rSgCAYmhroK1OtDeF6uADU1cI+8EjnlxJ8VlhJElS7u378JI8htxtYHwErk
+x2AyOJCR7+XjQQj8DkFiB2EEhtoPu4m5D/x+GOtS3nWDO2DA4QC9exT4se8NL4KAYwIu7h8p6+66
+o6HbJ/7RAIJCW5PXjIg5lmWi63kH7qgf72E0yQhjBmnYDSPlGj64WKyiC6wZdlOTHB0FiRCmC3vu
+cRK4VltgEF4fXl1yj4l6hXY5nadouAVU3snM3PePPHLPD3rhPW0yoPYHvhfEndQwpwt2pwPa9F4Y
+hFF+6iV8qU0rU/h0dsErYAzUBxpA4XggzhxOIDE8OoJo4UGoc6NhBtZm8jhbDiHplqeTUhD3dO3r
+6QCZDhSg3ERrTDScMceCnqcA53EURyFADkeDQf/4+wefpNym8wdufAjTh2/1XzFoZw4umZ6KrQ3D
+rVm0KYmMRaxqElGTylDxThbKcHQEc44TNDdL858yoQzjiSfNPBeW3wFrwmRyK+yBv7d+QV5KSpxx
+7b3tdUcYGKbUliJf5IJTwn5BtqawyF4C60ZwI1gjFy6Itvg7AqS9AFofAnEvxk8uXCBI/vjJ+GTy
+YPK7hKHJw8mHSPTJ+Ms5R9/Cn89wHNl8QtSs9+Dd0/Fz+PsrBPMC/nvSTnCViodJoABRgky+VtMT
+vA/V6IULkrcdHEfq4PUHMPx48tHkUToboJzA349AfM9QhDgMMJ7DxBMChJxMfgsDiOrR5ANFx/jf
+YcU3MPPrhAZA/P2DT8nk9wAf9IDI4eW3CVhU0uRDAPgYWfwcBkBU8PoEOVgnOAAS+GbyEaB6rN6r
+6Qo7QHsy+RgmPsN5ihqFdPxllovvFOXvA+SE6q+AkslvgeoToOdRO+MEEL0gE3WSAmKZLZS4zNwa
+xn9RDKCwn6PVgWw+VAp4qsh4DNw/Q0rRSEBtfwES0Ryew1ukG2cDc9+gJCYfAHOTd8dfICR4S5T6
+EyjKmoClb4li+xsUqZLTA8Xpt1MVPlK8PkxMqo228Cd481QTJiok0TIsekZS/XyMMoSVaH5qBgI5
+UWSgBT9NbEHZIhBc4HnykeZ6GWHnqrRU1NMKR/27XVGIFhSWlhlndd3xJygKZWqpmSQaAEt8lugg
+UVOx3FJqew6qAc8AFZ2guaEFPscQ9FR5LYpLCS3rPOB4qwTnoNUqIF8q4T7IWSss+ByVnrFXECLq
+7w9IQW+k0vra3KFRccp/AMrJ+LPJuzP1be1vrJLEl8ePATn6WKLiD9AwFRFgVrDiofIjpb93AViq
+y/GzjPKyxV2l5qor2BmcWead1TvVsV85FVr4U8XVvwKzYHO/A7I/R/WM/wj/+w7JV7JOPEjJ4bF6
+MQ1SegT7iog1VILmC19lNI+W7vZndR+FZMtn4blNIMdjrCdJQb+eVthrcbh2KwzvZDqii+T2yI16
+EYSLddIvGBLG9jSUr6kohlIHFWZkXqxS055k+oj/bpfMnEHounc9N14m5c1klmq53CEkxoHSjZLx
+p5nQr8xNhRYl3/fRzDFyANFk/Gcg/32Q/EMl7SQ6oO2iTSUh7GvlMZ+jjyR+8wSjXJpmHs4Xo7KT
+WIPB6NE0sLRJ0RsxyagQ+oWai+kkdVBUfeJtej6B52+nPpYJUxdn6QTz2DQY6Glk8h5RofeJCscv
+UIFJ7q5Kc22s9yAkBe5geBgWmv5TdenQjsajoXIct3c87x9U86RFVCyqMh2sgigA3BqnsEy1q+tG
+mwmTM0sy7qxOe9L11vV5W69sJw/GXDPommFlwXBTWg6QbNYFQ4VGjUFN07FMVhcM05milgEkmbWp
+YXYWDOPc5sIWsh4YtmZoTHHpSMMWgtcFQ2kODDOkYdq1wWhMCe44trAMpy4YZuaosajt2DWZ4jnZ
+COZYjiOYVReMLhsTuLItKuzaYGwdjOCWFNysC0aXjaRSMNOya9qNAAvUZGNZFjdkXdkAGJ0pzk0m
+HVobDNWYsqhlUVMwVhcMY5psBOXSBK5qg3E0MCa1LWHWpQZ+S40p0xSmZVBeFwzlWTA2B41DILXr
+gmGGBkZAODaZXZspZulMOVRS06jJFKQbjSnL4RCPTdOqC4bqTBkOd6So6wwARmcKjI9Kx6Z1wTAt
+3lgQzgW1ZU0wVs41HS5MA3IVrw1Gc03bMtA37bpQdM90pO0wDrmhLhjdMyGeG2A2tlkbjOaZjmFZ
+0rbrhmIb7FiXMGWmLQ1WFwzVmaJgNjY3zNpgdKa46UBmoE5dMEwLN7ZtObYh6hZbDqRfjRphcQHV
+HKsNxtGjFsgYIhetC4bmYihECuHU5onlog01bIdzWRcMN3JhwgYDrJnsqJErZy0wG4NarC4UvZo1
+obKBNFWzRgIwejULFYBtSUs4tcHodQAzDKhLaroCpbmKzRS2A6GC1waTq9i4AYJxaroCgtGrWQgS
+1Ab/rAtGr9iETYWwhFWTGpZzTPBL6BlEXRGznGNC4QcZHMrZumB0x0TZCMOpz5TumdyBZgHL2bpg
+dM+ECgAijmPWcfBivyqlhEgMtU02aO1V7bmcsnsFkLbNLab1RGcAqnm/NFWVwLUgcgagTGefGw7I
+ULOwswDNOpEEQqGAMBuJNNf0QomPUPUi9AxAtaAhOZS2EFWZbAhU4960mSkFRLVmQLWAAj0khWRm
+sUbKzzXLAJRTwxFaRX4GoLpMTUuCmmzZFKguU0EpFfpexRmA6jKFEAQRzXREE6C5Jhtikm1CGW6y
+hkA19nGrxhHSkM2AUt2kbBu6XpObzYBqRb+EMtKmFrcaylRrAYB9y5aOpI3Yz7XqUkjoKqDJsZsB
+1Rp3CCgOOr/NmgHV2njcmqAOBFTREKiWoji3hSUZaxSkcy2+5OClhqBWM5havw8JilHo1aXTEKjG
+PRWWKSVrZvu5vQBpQNBnlDfSfW5jAExfGjYXwmwINBdOQADg+KIZUD2ccGiKqWM105OVDyeQ97kj
+LashUC2cMKDVNB2jEdDc/gKYqYTK2GRmM6DaboOEHosJQWVToBr7AmMJdZqVZ7mdCMkMijvdzcJJ
+bl8CAp/gUKQ0q/lyuxSQoA2k1jSbAaU6+9R2DBPatWZAtUZJYq8vwaZEM6BcD6fK9YXTJO3ltzew
+jqZgrMJpBlTvd6BFhFraNHkzoHq/wwWHnGc0pTTX70CYwjayiaLy+yLS5LZtUGGbzYDmGh5TGAa3
+G7lpfs8Eq1PpGII1pFQvzrmNVmU1yqb5/RTcrXJMyxS8IVA9ntrp72ZA9YAC2dmxhb7rfQaguYDi
+QCEBRtVQprmAQk0hKRenzKY3VzNnffBMwfxQ9npr/B/jk8l76pRSevISjyikZ8xb6xyKK7DcUTD0
+orterzMfEY4FA8UzvEAghXYMe0fLQoY0bJ+mpwqT8yTjr9VJuQfJCUINMXSf0ihFjLxXIeYMChc8
+yFBA/F/qQIk6F/RFci5o/JWGkAkTP6koQWhhQCjFZ3CGrm3QArq/pscAp2c01Qmb9GxNAS8vZxSK
+5Sq8zOSOJSxmFhDjmUWFdgm3nLNybk3sJSqwMipxk7/I7h/S82V4YGgxXsacCnvCvdJyvNQ2gVVo
+yQp4/3N6rFU3WqZOI5Qg4XYlc5RCNoFCrYw3UNuX0zOuyeHTd+HFSc5kuUGdck0yPH9SjtawIeFw
+hxc1qc7CqQN9iyVqWBXMUmlVYzVMizIuC1j/pI5Wnaijh18kJ3p1dNAdiHJ0otJNAJnDKGNFt/xz
+EnPU6UU8KvbZ5AN1Ek1HSi2OG7tlvmlU4hTQHFJuFxX6b5PfqxOEeMYSQo+OyRaiHBOvxgSFmIQC
+R2CkLf0KCAbd2RczkuOw8AiIM9/CAMLQb99XJ0hXqPX9g08YPY9hX//yxfIgmvn6RaVCyxhk6BzJ
+cycOO5hHOpk8AqxyaAy5tE2jStPMwubREvgRwZxuv9f38EsZ6uiuCgKozYTMwphp4Ieiha9zrPPV
+/Lc01qH9d9oMv0PT9ZHEThDGiudP9BPos2O8yUHCp+pMPp6u106SpmcI58dG1RFbdYbwRXrmVn0r
+4RSHe1Uif4kKL8vRZ9Qys/CIy2ItGxY0wLirXKVlR2I7i/VHtZIpuPzLULJwJJD0E1byU5WjPgQV
+48FjKn9In6Yc++OF2haMOwK6HkdWFlUUeg1DfRJQrW5uIYBydUNVJsUp1Q1VrdmmP3t1v0SPpiZd
+pmPumKbNbV5ZUFLbhnJSxfUFKhbi5aiYGXbbMn+6Ok6PuL8gKwZGbWr8kC6tzqQu1DY0SNByU8us
+apMMW3BJHYqVeLW6hYWtcLm6oSLHYx9FdbOiuhmTvM1//up+iS4t8cDH4qjtmLaE0M0qS3xH2hzP
+iTsLdcwM9jJ0DKYk28z8GyjFsh3nWQO2syxeS2Y7kgomqjcAmAM9HKULtQsxgNcuwWiJdqEz+Cnn
+5FM6cMUW0Zm1vMyHTQmtO+iZV/qwYJbBbfX1gWotm7S68qr04RItO9Rsi5+KCydfOD2bC5erUFfz
+ktxdWmov07fkjFmWYVO7cjtRUAHV+OIqzMDP0crVLSUeVD2VtqVkbcf82dfZy/Zhz+jc5rIaTBoO
+sxxDeV/FfiOzuOmYki9StuNYZu2Su0zbpvWT6aGbuPapQvgZfFuIZbGcGZwaFLc8ytVtcijILctc
+6NtMleSNfdt07Lb8W4jk1cVYfR2b1tKizDKZKVn1pzJUSoca0l64UcIc3GZtrmOD/R/d+rwJ2vTc
+nrrSCze+MzeMdTLfIRTMYYbFLWpay6Mpd7hhSJMLaVt2pY8JwW3LEBw/2bAMrLIjv5fUYrbjGPdv
+3r9/mqt63hp5kbqZygtuKyZal0bdO5d+iR8UvIW36aytkcvVl/fg9Slr5LXI9YN1ArAJfg7QV9f9
+kP/+Y/ZWrjbZDgajOLlBrefFXnTkB/4Qr+mZX9K1uffGEEC+ub1/mdwKR0FvSDb2yMqNgMCvva0r
+W5v7yf/x19XtnZXNjb39FcVPrKbub1/d2tvfuPr6+fP4eOBHIDscX82s2/jVsnV9N12WrHp199pV
+vGysk3yd3Rt2kvuMbgTnAS4wjBdCpIZdIJikaDKgEtYyJJHpl+nBRyPfG65kCJ8Ts0q2d/a3dt/Y
+uEIouXzt+q6iNV2RYjmfo+k2WEWRJJ3kdrp2VSlq2FZG4vc03rPzk4HN3Wt7e+Qfr23vJMsSxImE
+8PoMZQPV2qvWAD5NKZrPT4nKvNm7fnVldhdcB6xpFHtDtXr+FpWWjuRW+uCg4DDauty7/IpeDk32
+RWbu5rXrO/srl7b39rd3QNbA6BZ58/LWDklkA0okK+dmJJ5bJedSvOfOk32ch0SD1rZ2LiXcdNWN
+Txgdl5kjjr62e+366+SX/0ToKmGJUlRkOIVOemiBcTQKuivncCrQptSkTmhAgHbjEl8pqirx+k6q
+MZxTVF4ipAsKQkJeiiQn9N4oSqJpVvAYNYGcrK4yklHgKmUxTYI/iIliqFF84aU/mlUmjFSM5WQw
+JTl19+QhNwdFgpcSzuSDD7k5hUJATS68zbvYLQj2wFluWfF1RgUzIS8xTMj9g76HplUap+aE4HC7
+KHH1usy4Nq5s7W1urSQO0i6PB8Q4VbDIA8sHiRRMdewoAMiGjenqqlCSY2QeCmbkZ16VLFTO0NY9
+LF1Z5Xa5tSXONoVQNlRGfGoN7SpzT8Et94YSkFOjncIoGnFx0cw/Mnzk/KW4qOgn6epFDlQEU/Sb
+mSYXeVQhoeO/yfiVrVf3kzxcTL7Jmzk913Y0VyL/kM6YvdjYuaR51XyGVhXMcRZySyb8lmNMzGoB
+wmRCBb6y+K3Lq4LPqQIWcTqdM8ONQSo5drioEj1NKsgnk0sb+1tK7TPNYvbNLNj61f7uxuZ+mokT
+K5gWebP8Ex7AsuOyVf4w7IX3StbBQCfdZ9LJS6uUJRCwepGrxEprlXNpW3uObF0BCOdSyOewekFs
+0wY4g2pZwK2OpBVRsjwEVoW3xUFreQwq8fKS+LEoKJSEgEruyStk5/qVK9uv5gtW8vdkYVrLd6LL
+FHBmREopOQya7OeQTwv6PCyR0OPqmWrgRZ25qkvEP0dUnhVKGu5FGqsGV+jIS8xjvrpK3FkOZ8C8
+4XAUednAr5VIEJFuBNnwkwan9oWUhCsbr61UyPTaG1u70wiGv17f2N3f3t+GUAk12TQIXtu9BLPg
+hda1KhqBuLt+OEqKus4iL95447WVSpGfkRCye+3NPfLLrf03tyDsUGmR13e3Nrcube+8pkL55vXd
+3a2dfZyWoTkK+330ZqtXVDpSWdDkj0VdgZAbgVJ/qt8bQR7j6pSWizcCdbX2sBv5g/TS7M00p6xN
+rWd2AfNsqyXZzVlNfEvdnZhojByMgsDr48Xs2d2b6X2Nww40nHhbn7rJ75XIvfdKSSfa7g7vppf9
+qSlJRs+9zDUJ+eFkLwJf3lxtHfj92MPdwV+3cve6qw2nNVUJ4FKA4Pb7s/2UXrI3AW+DkESe2yfd
+0TAOj7wIuCPhILmuP1kJaJL7lVWnW32nYd8Nbo/c215yjTTeTf7j3Hd9mq27V9UN2Ghna6MBQQ0R
+kK0KKoA1QDPCC9/dAAIxyOK2unUfCVrre3fBCtLbx2Fgti+XoWRBSVRV1eibNlp8+tE3bnCulrmW
+7k78wJ15Ji2gDcwtJ99gF9JEmToWCbtcoCVyK5NOThA5nqsqo//lwueHK0malyMvoRTB5PYyJFrM
+h7NEpNmUngBl3fSXV1qa/TKxJpMBNcRl6U+Pepkf1zJMf4qL+qEt8yCIbw8hJcSHs0AIdKk4mCyo
+Sn8g8S5UbF7vFd0fT5u2oDt6+bmn0U89GLjdOwC/4wcHIeaW6Q8E2h0Fsa++UoI/CwFFsTYdWsO7
+fb2ofRgf9ZUq+uAP0fHVsJed3kmHD8Fgvd4uLLkW9I+nP4XoqHzy9PkyPqZTo9xS8J4YVK1uFO6G
+g+ON4faRktCB2x96ih4vzjyCcmcPXs+P5w9vqx/zoD9eVuRe8YM7swH86TJgbZ4XzF4dFmcN0KPh
+bdCd4468AyjwDzPPYQSSmz0P8efepE/48V2qjO3/18WPrYv7/wOux+dmM2sAAA==
 </template>
 <template id="data-analytics-portable-reader-runtime-source" data-compression="gzip-base64">
 H4sIAAAAAAACE+y9aXfbxrYg+v3+CiqdpwauSgwpeQQN8zoaYieeYtlJHEUtQGRRhA0CDABKViSe

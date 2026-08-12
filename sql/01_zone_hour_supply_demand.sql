@@ -109,4 +109,5 @@ SELECT
     AVG(lost_demand_proxy) OVER (
         PARTITION BY zone_id ORDER BY hour_ts ROWS BETWEEN 167 PRECEDING AND CURRENT ROW
     ) AS rolling_7d_lost_demand_proxy
-FROM metrics;
+FROM metrics
+ORDER BY hour_ts, zone_id;

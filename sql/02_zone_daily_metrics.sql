@@ -43,4 +43,5 @@ SELECT
     RANK() OVER (
         PARTITION BY calendar_date ORDER BY lost_demand_proxy DESC NULLS LAST
     ) AS daily_lost_demand_rank
-FROM daily_metrics;
+FROM daily_metrics
+ORDER BY calendar_date, zone_id;

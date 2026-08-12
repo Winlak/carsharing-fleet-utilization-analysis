@@ -10,4 +10,6 @@ def test_sql_demonstrates_real_modeling_patterns() -> None:
     assert "LEFT JOIN" in hourly_sql
     assert "LAG(" in hourly_sql
     assert "ROWS BETWEEN 167 PRECEDING" in hourly_sql
+    assert "ORDER BY HOUR_TS, ZONE_ID" in hourly_sql
     assert "RANK() OVER" in daily_sql
+    assert "ORDER BY CALENDAR_DATE, ZONE_ID" in daily_sql

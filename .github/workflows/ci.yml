@@ -20,9 +20,5 @@ jobs:
         run: make lint
       - name: Test metric logic and SQL marts
         run: make test
-      - name: Reproduce analysis and execute notebook
-        run: make reproduce
-      - name: Confirm numeric and narrative artefacts are reproducible
-        run: git diff --exit-code -- docs outputs/*.csv outputs/*.json outputs/*.md artifacts/*.json data/processed/data_quality_report.md
-      - name: Confirm rendered outputs exist
-        run: test -s outputs/figures/fleet_utilization_dashboard.png && test -s notebooks/fleet_utilization_analysis.ipynb
+      - name: Reproduce analysis, execute notebook, and confirm a clean worktree
+        run: make reproduce-check

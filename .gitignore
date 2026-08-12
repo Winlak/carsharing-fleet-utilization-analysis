@@ -15,6 +15,12 @@ __pycache__/
 .DS_Store
 .venv/
 venv/
+.audit-venv/
+work/
+
+# Platform-specific rendered bytes are regenerated locally. The portable HTML
+# dashboard and canonical JSON snapshots in artifacts/ are the tracked visual handoff.
+outputs/figures/*.png
 
 # No credentials or local build artefacts.
 .env

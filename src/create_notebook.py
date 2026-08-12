@@ -1,8 +1,10 @@
-"""Create a compact, executed-notebook-ready companion to the case report."""
+"""Create a deterministic notebook source and execute an ignored runtime copy."""
 
 from __future__ import annotations
 
 import json
+import subprocess
+import sys
 from pathlib import Path
 
 import nbformat as nbf
@@ -90,6 +92,8 @@ def build_notebook(summary: dict[str, object]) -> nbf.NotebookNode:
             "- Для боевого решения нужны фактическая география, отмены, ETA, цена, свободные автомобили в радиусе и причина неуспешного бронирования."
         ),
     ]
+    for index, cell in enumerate(notebook.cells, start=1):
+        cell.id = f"fleet-{index:02d}"
     return notebook
 
 
@@ -99,6 +103,37 @@ def write_notebook(summary_path: Path, notebook_path: Path) -> None:
     nbf.write(build_notebook(summary), notebook_path)
 
 
+def execute_notebook(notebook_path: Path, execution_dir: Path, project_root: Path) -> Path:
+    """Execute a copy so kernel timestamps and rendered PNG bytes stay untracked."""
+    execution_dir.mkdir(parents=True, exist_ok=True)
+    output_stem = f"{notebook_path.stem}.executed"
+    executed_path = execution_dir / f"{output_stem}.ipynb"
+    subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "nbconvert",
+            "--execute",
+            "--to",
+            "notebook",
+            "--output",
+            output_stem,
+            "--output-dir",
+            str(execution_dir),
+            str(notebook_path),
+        ],
+        check=True,
+        cwd=project_root,
+    )
+    executed = nbf.read(executed_path, as_version=4)
+    code_cells = [cell for cell in executed.cells if cell.cell_type == "code"]
+    if not code_cells or any(cell.execution_count is None or not cell.outputs for cell in code_cells):
+        raise RuntimeError("Notebook execution did not produce outputs for every code cell")
+    return executed_path
+
+
 if __name__ == "__main__":
     project_root = Path(__file__).resolve().parents[1]
-    write_notebook(project_root / "outputs" / "analysis_summary.json", project_root / "notebooks" / "fleet_utilization_analysis.ipynb")
+    source_path = project_root / "notebooks" / "fleet_utilization_analysis.ipynb"
+    write_notebook(project_root / "outputs" / "analysis_summary.json", source_path)
+    execute_notebook(source_path, project_root / "work", project_root)

@@ -3,15 +3,13 @@
 from __future__ import annotations
 
 import argparse
-import subprocess
-import sys
 from datetime import datetime
 from pathlib import Path
 
 from src.analyze import run_analysis
 from src.build_marts import build_marts
 from src.build_portable_artifacts import build_artifacts
-from src.create_notebook import write_notebook
+from src.create_notebook import execute_notebook, write_notebook
 from src.generate_data import run_generator
 from src.render_case_report import render_report
 
@@ -28,11 +26,7 @@ def run_pipeline(root: Path, hours: int, cars: int, skip_notebook: bool) -> None
     notebook_path = root / "notebooks" / "fleet_utilization_analysis.ipynb"
     write_notebook(outputs_dir / "analysis_summary.json", notebook_path)
     if not skip_notebook:
-        subprocess.run(
-            [sys.executable, "-m", "nbconvert", "--execute", "--to", "notebook", "--inplace", str(notebook_path)],
-            check=True,
-            cwd=root,
-        )
+        execute_notebook(notebook_path, root / "work", root)
 
 
 def main() -> None:
