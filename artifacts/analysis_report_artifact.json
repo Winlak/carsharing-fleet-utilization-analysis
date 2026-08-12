@@ -1,0 +1,989 @@
+{
+  "surface": "report",
+  "manifest": {
+    "version": 1,
+    "title": "Утилизация автопарка и баланс спроса",
+    "generatedAt": "2026-08-12T00:00:00Z",
+    "charts": [
+      {
+        "id": "weekly_trend_chart",
+        "title": "Weekly utilization and conversion",
+        "subtitle": "Synthetic 2025 data; rates are recalculated from weekly numerators and denominators.",
+        "type": "line",
+        "dataset": "weekly_trend",
+        "sourceId": "fleet_daily_mart",
+        "encodings": {
+          "x": {
+            "field": "week_start",
+            "type": "temporal"
+          },
+          "y": {
+            "field": "rate",
+            "type": "quantitative"
+          },
+          "color": {
+            "field": "metric",
+            "type": "nominal"
+          }
+        }
+      },
+      {
+        "id": "lost_demand_by_zone_chart",
+        "title": "Lost demand proxy by zone",
+        "subtitle": "Share of searches that had no available car in the origin zone; full 2025 synthetic period.",
+        "type": "bar",
+        "dataset": "zone_loss",
+        "sourceId": "zone_hour_mart",
+        "encodings": {
+          "x": {
+            "field": "zone_name",
+            "type": "nominal"
+          },
+          "y": {
+            "field": "lost_demand_proxy",
+            "type": "quantitative"
+          }
+        }
+      }
+    ],
+    "tables": [
+      {
+        "id": "priority_table",
+        "title": "Hypotheses for relocation pilot",
+        "subtitle": "Ranked opportunities; not estimated causal impact.",
+        "dataset": "priority_relocations",
+        "sourceId": "zone_hour_mart",
+        "defaultSort": {
+          "field": "priority_score",
+          "direction": "desc"
+        },
+        "columns": [
+          {
+            "field": "day_type",
+            "label": "Day type"
+          },
+          {
+            "field": "hour_block",
+            "label": "Time window"
+          },
+          {
+            "field": "recipient_zone",
+            "label": "Recipient"
+          },
+          {
+            "field": "donor_zone",
+            "label": "Donor"
+          },
+          {
+            "field": "lost_demand_proxy",
+            "label": "Lost demand proxy",
+            "format": "percent"
+          },
+          {
+            "field": "recommended_cars",
+            "label": "Cars",
+            "format": "number"
+          },
+          {
+            "field": "priority_score",
+            "label": "Priority score",
+            "format": "number"
+          }
+        ]
+      }
+    ],
+    "sources": [
+      {
+        "id": "zone_hour_mart",
+        "label": "Synthetic hourly supply–demand mart",
+        "path": "sql/01_zone_hour_supply_demand.sql"
+      },
+      {
+        "id": "fleet_daily_mart",
+        "label": "Synthetic fleet daily mart",
+        "path": "sql/03_fleet_daily_summary.sql"
+      }
+    ],
+    "surface": "report",
+    "blocks": [
+      {
+        "id": "title",
+        "type": "markdown",
+        "body": "# Утилизация автопарка и баланс спроса"
+      },
+      {
+        "id": "executive_summary",
+        "type": "markdown",
+        "sourceId": "zone_hour_mart",
+        "body": "## Executive Summary\n\n- **4.4% поисков** завершились без автомобиля в исходной зоне.\n- **Утилизация 26.4%** и конверсия **63.9%** скрывают концентрированные дефициты.\n- Релокации — экспериментальная гипотеза: наблюдательные связи не доказывают причинный эффект."
+      },
+      {
+        "id": "finding_weekly",
+        "type": "markdown",
+        "sourceId": "fleet_daily_mart",
+        "body": "## Сезонность и динамика\n\n**Сравнивать слоты нужно с одинаковым календарным контекстом.** Недельные метрики меняются вместе с заданной сезонностью спроса."
+      },
+      {
+        "id": "weekly_trend",
+        "type": "chart",
+        "chartId": "weekly_trend_chart"
+      },
+      {
+        "id": "finding_loss",
+        "type": "markdown",
+        "sourceId": "zone_hour_mart",
+        "body": "## Где начинать пилот\n\n**Lost demand proxy ранжирует окна для тестирования, а не размер причинного эффекта.** В production-версии потребуются ETA, цена, отмены и радиус доступности."
+      },
+      {
+        "id": "zone_loss",
+        "type": "chart",
+        "chartId": "lost_demand_by_zone_chart"
+      },
+      {
+        "id": "recommendations",
+        "type": "markdown",
+        "body": "## Следующий шаг\n\nЗапустить стратифицированный 4-недельный пилот с allocation 1–3 авто. Primary metric: search-to-book conversion; guardrail: lost demand proxy в зоне-доноре."
+      },
+      {
+        "id": "priority_table",
+        "type": "table",
+        "tableId": "priority_table"
+      },
+      {
+        "id": "caveats",
+        "type": "markdown",
+        "body": "## Caveats and assumptions\n\nДанные синтетические. Почасовой статус округляет внутрисчасовую занятость. Lost demand proxy — нижняя граница ненаблюдаемого спроса; не делать причинных выводов без эксперимента."
+      }
+    ]
+  },
+  "snapshot": {
+    "version": 1,
+    "generatedAt": "2026-08-12T00:00:00Z",
+    "status": "ready",
+    "datasets": {
+      "weekly_trend": [
+        {
+          "week_start": "2024-12-31",
+          "rate": 0.2453276239,
+          "metric": "Utilization"
+        },
+        {
+          "week_start": "2025-01-07",
+          "rate": 0.2356790265,
+          "metric": "Utilization"
+        },
+        {
+          "week_start": "2025-01-14",
+          "rate": 0.2401559752,
+          "metric": "Utilization"
+        },
+        {
+          "week_start": "2025-01-21",
+          "rate": 0.2417023555,
+          "metric": "Utilization"
+        },
+        {
+          "week_start": "2025-01-28",
+          "rate": 0.2233834846,
+          "metric": "Utilization"
+        },
+        {
+          "week_start": "2025-02-04",
+          "rate": 0.2369608443,
+          "metric": "Utilization"
+        },
+        {
+          "week_start": "2025-02-11",
+          "rate": 0.2369206058,
+          "metric": "Utilization"
+        },
+        {
+          "week_start": "2025-02-18",
+          "rate": 0.2439984709,
+          "metric": "Utilization"
+        },
+        {
+          "week_start": "2025-02-25",
+          "rate": 0.2369718983,
+          "metric": "Utilization"
+        },
+        {
+          "week_start": "2025-03-04",
+          "rate": 0.2429799427,
+          "metric": "Utilization"
+        },
+        {
+          "week_start": "2025-03-11",
+          "rate": 0.2543987148,
+          "metric": "Utilization"
+        },
+        {
+          "week_start": "2025-03-18",
+          "rate": 0.2544376435,
+          "metric": "Utilization"
+        },
+        {
+          "week_start": "2025-03-25",
+          "rate": 0.2616425786,
+          "metric": "Utilization"
+        },
+        {
+          "week_start": "2025-04-01",
+          "rate": 0.2477730627,
+          "metric": "Utilization"
+        },
+        {
+          "week_start": "2025-04-08",
+          "rate": 0.2533526917,
+          "metric": "Utilization"
+        },
+        {
+          "week_start": "2025-04-15",
+          "rate": 0.2717715422,
+          "metric": "Utilization"
+        },
+        {
+          "week_start": "2025-04-22",
+          "rate": 0.2641365062,
+          "metric": "Utilization"
+        },
+        {
+          "week_start": "2025-04-29",
+          "rate": 0.2651874522,
+          "metric": "Utilization"
+        },
+        {
+          "week_start": "2025-05-06",
+          "rate": 0.2755457013,
+          "metric": "Utilization"
+        },
+        {
+          "week_start": "2025-05-13",
+          "rate": 0.2831645328,
+          "metric": "Utilization"
+        },
+        {
+          "week_start": "2025-05-20",
+          "rate": 0.2842455282,
+          "metric": "Utilization"
+        },
+        {
+          "week_start": "2025-05-27",
+          "rate": 0.2759161503,
+          "metric": "Utilization"
+        },
+        {
+          "week_start": "2025-06-03",
+          "rate": 0.2793240557,
+          "metric": "Utilization"
+        },
+        {
+          "week_start": "2025-06-10",
+          "rate": 0.2809396486,
+          "metric": "Utilization"
+        },
+        {
+          "week_start": "2025-06-17",
+          "rate": 0.2771516981,
+          "metric": "Utilization"
+        },
+        {
+          "week_start": "2025-06-24",
+          "rate": 0.2748441861,
+          "metric": "Utilization"
+        },
+        {
+          "week_start": "2025-07-01",
+          "rate": 0.2934500153,
+          "metric": "Utilization"
+        },
+        {
+          "week_start": "2025-07-08",
+          "rate": 0.287035268,
+          "metric": "Utilization"
+        },
+        {
+          "week_start": "2025-07-15",
+          "rate": 0.2968923206,
+          "metric": "Utilization"
+        },
+        {
+          "week_start": "2025-07-22",
+          "rate": 0.2971061585,
+          "metric": "Utilization"
+        },
+        {
+          "week_start": "2025-07-29",
+          "rate": 0.2907768848,
+          "metric": "Utilization"
+        },
+        {
+          "week_start": "2025-08-05",
+          "rate": 0.2931258602,
+          "metric": "Utilization"
+        },
+        {
+          "week_start": "2025-08-12",
+          "rate": 0.2911518305,
+          "metric": "Utilization"
+        },
+        {
+          "week_start": "2025-08-19",
+          "rate": 0.2935937619,
+          "metric": "Utilization"
+        },
+        {
+          "week_start": "2025-08-26",
+          "rate": 0.2887980439,
+          "metric": "Utilization"
+        },
+        {
+          "week_start": "2025-09-02",
+          "rate": 0.2947340242,
+          "metric": "Utilization"
+        },
+        {
+          "week_start": "2025-09-09",
+          "rate": 0.2833123161,
+          "metric": "Utilization"
+        },
+        {
+          "week_start": "2025-09-16",
+          "rate": 0.275793499,
+          "metric": "Utilization"
+        },
+        {
+          "week_start": "2025-09-23",
+          "rate": 0.2791089336,
+          "metric": "Utilization"
+        },
+        {
+          "week_start": "2025-09-30",
+          "rate": 0.2771807717,
+          "metric": "Utilization"
+        },
+        {
+          "week_start": "2025-10-07",
+          "rate": 0.271150172,
+          "metric": "Utilization"
+        },
+        {
+          "week_start": "2025-10-14",
+          "rate": 0.2599418783,
+          "metric": "Utilization"
+        },
+        {
+          "week_start": "2025-10-21",
+          "rate": 0.2627876749,
+          "metric": "Utilization"
+        },
+        {
+          "week_start": "2025-10-28",
+          "rate": 0.2520064205,
+          "metric": "Utilization"
+        },
+        {
+          "week_start": "2025-11-04",
+          "rate": 0.2548997135,
+          "metric": "Utilization"
+        },
+        {
+          "week_start": "2025-11-11",
+          "rate": 0.2530783939,
+          "metric": "Utilization"
+        },
+        {
+          "week_start": "2025-11-18",
+          "rate": 0.2425818293,
+          "metric": "Utilization"
+        },
+        {
+          "week_start": "2025-11-25",
+          "rate": 0.2481447479,
+          "metric": "Utilization"
+        },
+        {
+          "week_start": "2025-12-02",
+          "rate": 0.2473233405,
+          "metric": "Utilization"
+        },
+        {
+          "week_start": "2025-12-09",
+          "rate": 0.2477916714,
+          "metric": "Utilization"
+        },
+        {
+          "week_start": "2025-12-16",
+          "rate": 0.2425840979,
+          "metric": "Utilization"
+        },
+        {
+          "week_start": "2025-12-23",
+          "rate": 0.2397092578,
+          "metric": "Utilization"
+        },
+        {
+          "week_start": "2025-12-30",
+          "rate": 0.2486283956,
+          "metric": "Utilization"
+        },
+        {
+          "week_start": "2024-12-31",
+          "rate": 0.6665935031,
+          "metric": "Search-to-book conversion"
+        },
+        {
+          "week_start": "2025-01-07",
+          "rate": 0.6598837209,
+          "metric": "Search-to-book conversion"
+        },
+        {
+          "week_start": "2025-01-14",
+          "rate": 0.6529345372,
+          "metric": "Search-to-book conversion"
+        },
+        {
+          "week_start": "2025-01-21",
+          "rate": 0.6630995605,
+          "metric": "Search-to-book conversion"
+        },
+        {
+          "week_start": "2025-01-28",
+          "rate": 0.629392351,
+          "metric": "Search-to-book conversion"
+        },
+        {
+          "week_start": "2025-02-04",
+          "rate": 0.6502939503,
+          "metric": "Search-to-book conversion"
+        },
+        {
+          "week_start": "2025-02-11",
+          "rate": 0.6375925926,
+          "metric": "Search-to-book conversion"
+        },
+        {
+          "week_start": "2025-02-18",
+          "rate": 0.6582564489,
+          "metric": "Search-to-book conversion"
+        },
+        {
+          "week_start": "2025-02-25",
+          "rate": 0.6431933722,
+          "metric": "Search-to-book conversion"
+        },
+        {
+          "week_start": "2025-03-04",
+          "rate": 0.6433109457,
+          "metric": "Search-to-book conversion"
+        },
+        {
+          "week_start": "2025-03-11",
+          "rate": 0.6576950867,
+          "metric": "Search-to-book conversion"
+        },
+        {
+          "week_start": "2025-03-18",
+          "rate": 0.6541114058,
+          "metric": "Search-to-book conversion"
+        },
+        {
+          "week_start": "2025-03-25",
+          "rate": 0.6578258594,
+          "metric": "Search-to-book conversion"
+        },
+        {
+          "week_start": "2025-04-01",
+          "rate": 0.6288587052,
+          "metric": "Search-to-book conversion"
+        },
+        {
+          "week_start": "2025-04-08",
+          "rate": 0.6369294606,
+          "metric": "Search-to-book conversion"
+        },
+        {
+          "week_start": "2025-04-15",
+          "rate": 0.6488651535,
+          "metric": "Search-to-book conversion"
+        },
+        {
+          "week_start": "2025-04-22",
+          "rate": 0.6402817374,
+          "metric": "Search-to-book conversion"
+        },
+        {
+          "week_start": "2025-04-29",
+          "rate": 0.6367869616,
+          "metric": "Search-to-book conversion"
+        },
+        {
+          "week_start": "2025-05-06",
+          "rate": 0.6466882068,
+          "metric": "Search-to-book conversion"
+        },
+        {
+          "week_start": "2025-05-13",
+          "rate": 0.6379256482,
+          "metric": "Search-to-book conversion"
+        },
+        {
+          "week_start": "2025-05-20",
+          "rate": 0.6518199234,
+          "metric": "Search-to-book conversion"
+        },
+        {
+          "week_start": "2025-05-27",
+          "rate": 0.6338476221,
+          "metric": "Search-to-book conversion"
+        },
+        {
+          "week_start": "2025-06-03",
+          "rate": 0.631110417,
+          "metric": "Search-to-book conversion"
+        },
+        {
+          "week_start": "2025-06-10",
+          "rate": 0.6302171569,
+          "metric": "Search-to-book conversion"
+        },
+        {
+          "week_start": "2025-06-17",
+          "rate": 0.6147566235,
+          "metric": "Search-to-book conversion"
+        },
+        {
+          "week_start": "2025-06-24",
+          "rate": 0.604482132,
+          "metric": "Search-to-book conversion"
+        },
+        {
+          "week_start": "2025-07-01",
+          "rate": 0.6366083445,
+          "metric": "Search-to-book conversion"
+        },
+        {
+          "week_start": "2025-07-08",
+          "rate": 0.6366145354,
+          "metric": "Search-to-book conversion"
+        },
+        {
+          "week_start": "2025-07-15",
+          "rate": 0.6330519769,
+          "metric": "Search-to-book conversion"
+        },
+        {
+          "week_start": "2025-07-22",
+          "rate": 0.6465039677,
+          "metric": "Search-to-book conversion"
+        },
+        {
+          "week_start": "2025-07-29",
+          "rate": 0.6263355907,
+          "metric": "Search-to-book conversion"
+        },
+        {
+          "week_start": "2025-08-05",
+          "rate": 0.6306979525,
+          "metric": "Search-to-book conversion"
+        },
+        {
+          "week_start": "2025-08-12",
+          "rate": 0.6252244165,
+          "metric": "Search-to-book conversion"
+        },
+        {
+          "week_start": "2025-08-19",
+          "rate": 0.6499231951,
+          "metric": "Search-to-book conversion"
+        },
+        {
+          "week_start": "2025-08-26",
+          "rate": 0.6201376421,
+          "metric": "Search-to-book conversion"
+        },
+        {
+          "week_start": "2025-09-02",
+          "rate": 0.6514364303,
+          "metric": "Search-to-book conversion"
+        },
+        {
+          "week_start": "2025-09-09",
+          "rate": 0.6280620155,
+          "metric": "Search-to-book conversion"
+        },
+        {
+          "week_start": "2025-09-16",
+          "rate": 0.6218905473,
+          "metric": "Search-to-book conversion"
+        },
+        {
+          "week_start": "2025-09-23",
+          "rate": 0.6418767954,
+          "metric": "Search-to-book conversion"
+        },
+        {
+          "week_start": "2025-09-30",
+          "rate": 0.6361453498,
+          "metric": "Search-to-book conversion"
+        },
+        {
+          "week_start": "2025-10-07",
+          "rate": 0.6375162549,
+          "metric": "Search-to-book conversion"
+        },
+        {
+          "week_start": "2025-10-14",
+          "rate": 0.6257658553,
+          "metric": "Search-to-book conversion"
+        },
+        {
+          "week_start": "2025-10-21",
+          "rate": 0.6343221049,
+          "metric": "Search-to-book conversion"
+        },
+        {
+          "week_start": "2025-10-28",
+          "rate": 0.6246565934,
+          "metric": "Search-to-book conversion"
+        },
+        {
+          "week_start": "2025-11-04",
+          "rate": 0.6538801485,
+          "metric": "Search-to-book conversion"
+        },
+        {
+          "week_start": "2025-11-11",
+          "rate": 0.6354003821,
+          "metric": "Search-to-book conversion"
+        },
+        {
+          "week_start": "2025-11-18",
+          "rate": 0.6369690425,
+          "metric": "Search-to-book conversion"
+        },
+        {
+          "week_start": "2025-11-25",
+          "rate": 0.6386375732,
+          "metric": "Search-to-book conversion"
+        },
+        {
+          "week_start": "2025-12-02",
+          "rate": 0.6420957543,
+          "metric": "Search-to-book conversion"
+        },
+        {
+          "week_start": "2025-12-09",
+          "rate": 0.6486486486,
+          "metric": "Search-to-book conversion"
+        },
+        {
+          "week_start": "2025-12-16",
+          "rate": 0.6535984848,
+          "metric": "Search-to-book conversion"
+        },
+        {
+          "week_start": "2025-12-23",
+          "rate": 0.6494458012,
+          "metric": "Search-to-book conversion"
+        },
+        {
+          "week_start": "2025-12-30",
+          "rate": 0.6315461347,
+          "metric": "Search-to-book conversion"
+        }
+      ],
+      "zone_loss": [
+        {
+          "zone_name": "Технопарк",
+          "searches": 31321.0,
+          "unserved_searches": 4971.0,
+          "lost_demand_proxy": 0.1587114077
+        },
+        {
+          "zone_name": "Деловой квартал",
+          "searches": 41160.0,
+          "unserved_searches": 5461.0,
+          "lost_demand_proxy": 0.1326773567
+        },
+        {
+          "zone_name": "Южный жилой",
+          "searches": 24502.0,
+          "unserved_searches": 785.0,
+          "lost_demand_proxy": 0.032038201
+        },
+        {
+          "zone_name": "Университетский",
+          "searches": 24530.0,
+          "unserved_searches": 623.0,
+          "lost_demand_proxy": 0.0253974725
+        },
+        {
+          "zone_name": "Северный жилой",
+          "searches": 23322.0,
+          "unserved_searches": 517.0,
+          "lost_demand_proxy": 0.0221679101
+        },
+        {
+          "zone_name": "Восточный жилой",
+          "searches": 22291.0,
+          "unserved_searches": 414.0,
+          "lost_demand_proxy": 0.0185725181
+        },
+        {
+          "zone_name": "Центр",
+          "searches": 32427.0,
+          "unserved_searches": 387.0,
+          "lost_demand_proxy": 0.011934499
+        },
+        {
+          "zone_name": "Вокзальный узел",
+          "searches": 30190.0,
+          "unserved_searches": 246.0,
+          "lost_demand_proxy": 0.0081483935
+        },
+        {
+          "zone_name": "Западный жилой",
+          "searches": 20727.0,
+          "unserved_searches": 167.0,
+          "lost_demand_proxy": 0.0080571236
+        },
+        {
+          "zone_name": "Набережная",
+          "searches": 25034.0,
+          "unserved_searches": 145.0,
+          "lost_demand_proxy": 0.0057921227
+        },
+        {
+          "zone_name": "Парк и события",
+          "searches": 17309.0,
+          "unserved_searches": 70.0,
+          "lost_demand_proxy": 0.0040441389
+        },
+        {
+          "zone_name": "Аэропорт",
+          "searches": 18449.0,
+          "unserved_searches": 30.0,
+          "lost_demand_proxy": 0.0016261044
+        }
+      ],
+      "priority_relocations": [
+        {
+          "day_type": "weekday",
+          "hour_block": "вечер (17–21)",
+          "recipient_zone": "Деловой квартал",
+          "donor_zone": "Набережная",
+          "unserved_searches": 3287,
+          "search_to_book_conversion": 0.3396368505,
+          "lost_demand_proxy": 0.2750397456,
+          "recipient_idle_car_hours": 2209.0,
+          "donor_idle_car_hours": 25042.0,
+          "recommended_cars": 3,
+          "priority_score": 6049.2,
+          "decision_note": "Гипотеза для рандомизированного пилота, не оценка причинного эффекта."
+        },
+        {
+          "day_type": "weekday",
+          "hour_block": "вечер (17–21)",
+          "recipient_zone": "Технопарк",
+          "donor_zone": "Набережная",
+          "unserved_searches": 2728,
+          "search_to_book_conversion": 0.3074166576,
+          "lost_demand_proxy": 0.296231947,
+          "recipient_idle_car_hours": 1792.0,
+          "donor_idle_car_hours": 25042.0,
+          "recommended_cars": 3,
+          "priority_score": 4960.3,
+          "decision_note": "Гипотеза для рандомизированного пилота, не оценка причинного эффекта."
+        },
+        {
+          "day_type": "weekday",
+          "hour_block": "день (11–16)",
+          "recipient_zone": "Деловой квартал",
+          "donor_zone": "Набережная",
+          "unserved_searches": 1373,
+          "search_to_book_conversion": 0.4239401496,
+          "lost_demand_proxy": 0.1316900058,
+          "recipient_idle_car_hours": 3796.0,
+          "donor_idle_car_hours": 32664.0,
+          "recommended_cars": 3,
+          "priority_score": 3475.1,
+          "decision_note": "Гипотеза для рандомизированного пилота, не оценка причинного эффекта."
+        },
+        {
+          "day_type": "weekday",
+          "hour_block": "день (11–16)",
+          "recipient_zone": "Технопарк",
+          "donor_zone": "Набережная",
+          "unserved_searches": 1513,
+          "search_to_book_conversion": 0.3955838323,
+          "lost_demand_proxy": 0.188747505,
+          "recipient_idle_car_hours": 3446.0,
+          "donor_idle_car_hours": 32664.0,
+          "recommended_cars": 3,
+          "priority_score": 3208.75,
+          "decision_note": "Гипотеза для рандомизированного пилота, не оценка причинного эффекта."
+        },
+        {
+          "day_type": "weekday",
+          "hour_block": "утро (07–10)",
+          "recipient_zone": "Деловой квартал",
+          "donor_zone": "Набережная",
+          "unserved_searches": 786,
+          "search_to_book_conversion": 0.5469571751,
+          "lost_demand_proxy": 0.0843619191,
+          "recipient_idle_car_hours": 4748.0,
+          "donor_idle_car_hours": 18539.0,
+          "recommended_cars": 2,
+          "priority_score": 2263.35,
+          "decision_note": "Гипотеза для рандомизированного пилота, не оценка причинного эффекта."
+        },
+        {
+          "day_type": "weekday",
+          "hour_block": "утро (07–10)",
+          "recipient_zone": "Технопарк",
+          "donor_zone": "Набережная",
+          "unserved_searches": 679,
+          "search_to_book_conversion": 0.4958642327,
+          "lost_demand_proxy": 0.0968339989,
+          "recipient_idle_car_hours": 4202.0,
+          "donor_idle_car_hours": 18539.0,
+          "recommended_cars": 2,
+          "priority_score": 1916.25,
+          "decision_note": "Гипотеза для рандомизированного пилота, не оценка причинного эффекта."
+        },
+        {
+          "day_type": "weekday",
+          "hour_block": "вечер (17–21)",
+          "recipient_zone": "Центр",
+          "donor_zone": "Набережная",
+          "unserved_searches": 193,
+          "search_to_book_conversion": 0.6289614243,
+          "lost_demand_proxy": 0.0229080119,
+          "recipient_idle_car_hours": 7173.0,
+          "donor_idle_car_hours": 25042.0,
+          "recommended_cars": 1,
+          "priority_score": 1287.1,
+          "decision_note": "Гипотеза для рандомизированного пилота, не оценка причинного эффекта."
+        },
+        {
+          "day_type": "weekday",
+          "hour_block": "утро (07–10)",
+          "recipient_zone": "Южный жилой",
+          "donor_zone": "Набережная",
+          "unserved_searches": 199,
+          "search_to_book_conversion": 0.5607296137,
+          "lost_demand_proxy": 0.0427038627,
+          "recipient_idle_car_hours": 5196.0,
+          "donor_idle_car_hours": 18539.0,
+          "recommended_cars": 1,
+          "priority_score": 915.45,
+          "decision_note": "Гипотеза для рандомизированного пилота, не оценка причинного эффекта."
+        },
+        {
+          "day_type": "weekend",
+          "hour_block": "вечер (17–21)",
+          "recipient_zone": "Набережная",
+          "donor_zone": "Деловой квартал",
+          "unserved_searches": 139,
+          "search_to_book_conversion": 0.6322770818,
+          "lost_demand_proxy": 0.034143945,
+          "recipient_idle_car_hours": 3055.0,
+          "donor_idle_car_hours": 6683.0,
+          "recommended_cars": 1,
+          "priority_score": 662.95,
+          "decision_note": "Гипотеза для рандомизированного пилота, не оценка причинного эффекта."
+        },
+        {
+          "day_type": "weekday",
+          "hour_block": "день (11–16)",
+          "recipient_zone": "Университетский",
+          "donor_zone": "Набережная",
+          "unserved_searches": 56,
+          "search_to_book_conversion": 0.6092790539,
+          "lost_demand_proxy": 0.0127359563,
+          "recipient_idle_car_hours": 9975.0,
+          "donor_idle_car_hours": 32664.0,
+          "recommended_cars": 1,
+          "priority_score": 657.3,
+          "decision_note": "Гипотеза для рандомизированного пилота, не оценка причинного эффекта."
+        },
+        {
+          "day_type": "weekend",
+          "hour_block": "вечер (17–21)",
+          "recipient_zone": "Южный жилой",
+          "donor_zone": "Деловой квартал",
+          "unserved_searches": 144,
+          "search_to_book_conversion": 0.520310192,
+          "lost_demand_proxy": 0.0531757755,
+          "recipient_idle_car_hours": 2191.0,
+          "donor_idle_car_hours": 6683.0,
+          "recommended_cars": 1,
+          "priority_score": 598.65,
+          "decision_note": "Гипотеза для рандомизированного пилота, не оценка причинного эффекта."
+        },
+        {
+          "day_type": "weekend",
+          "hour_block": "вечер (17–21)",
+          "recipient_zone": "Центр",
+          "donor_zone": "Деловой квартал",
+          "unserved_searches": 57,
+          "search_to_book_conversion": 0.6275256223,
+          "lost_demand_proxy": 0.0166910688,
+          "recipient_idle_car_hours": 2987.0,
+          "donor_idle_car_hours": 6683.0,
+          "recommended_cars": 1,
+          "priority_score": 502.2,
+          "decision_note": "Гипотеза для рандомизированного пилота, не оценка причинного эффекта."
+        }
+      ],
+      "headline": [
+        {
+          "utilization_rate": 0.2644292073715756,
+          "search_to_book_conversion": 0.639300653468782,
+          "lost_demand_proxy": 0.04438704371237093,
+          "rides": 198990
+        }
+      ]
+    }
+  },
+  "sources": [
+    {
+      "id": "zone_hour_mart",
+      "query": {
+        "engine": "DuckDB",
+        "sql": "-- Hourly supply–demand mart.\n-- Grain: one local hour × origin zone. Inputs are deterministic synthetic CSVs.\nWITH bounds AS (\n    SELECT\n        MIN(CAST(hour_ts AS TIMESTAMP)) AS first_hour,\n        MAX(CAST(hour_ts AS TIMESTAMP)) AS last_hour\n    FROM car_statuses_hourly\n),\ncalendar_hours AS (\n    SELECT hour_ts\n    FROM bounds,\n         generate_series(first_hour, last_hour, INTERVAL 1 HOUR) AS series(hour_ts)\n),\ncalendar_grid AS (\n    SELECT calendar_hours.hour_ts, zones.zone_id\n    FROM calendar_hours\n    CROSS JOIN zones\n),\nstatus_by_hour AS (\n    SELECT\n        CAST(hour_ts AS TIMESTAMP) AS hour_ts,\n        zone_id,\n        SUM(available_minutes) AS available_car_minutes,\n        SUM(in_ride_minutes) AS in_ride_minutes,\n        SUM(idle_minutes) AS idle_minutes,\n        COUNT(DISTINCT CASE WHEN status IN ('available', 'in_ride') THEN car_id END) AS active_cars\n    FROM car_statuses_hourly\n    GROUP BY 1, 2\n),\nrides_by_hour AS (\n    SELECT\n        date_trunc('hour', CAST(started_at AS TIMESTAMP)) AS hour_ts,\n        origin_zone_id AS zone_id,\n        COUNT(*) AS rides_started,\n        SUM(duration_minutes) AS booked_ride_minutes\n    FROM rides\n    GROUP BY 1, 2\n),\nsearches_by_hour AS (\n    SELECT\n        CAST(hour_ts AS TIMESTAMP) AS hour_ts,\n        zone_id,\n        MAX(starting_available_cars) AS starting_available_cars,\n        SUM(searches) AS searches,\n        SUM(bookings) AS bookings,\n        SUM(unserved_searches) AS unserved_searches,\n        SUM(abandoned_searches) AS abandoned_searches\n    FROM searches_hourly\n    GROUP BY 1, 2\n),\ncompleted_grid AS (\n    SELECT\n        grid.hour_ts,\n        grid.zone_id,\n        COALESCE(status.available_car_minutes, 0) AS available_car_minutes,\n        COALESCE(status.in_ride_minutes, 0) AS in_ride_minutes,\n        COALESCE(status.idle_minutes, 0) AS idle_minutes,\n        COALESCE(status.active_cars, 0) AS active_cars,\n        COALESCE(rides.rides_started, 0) AS rides_started,\n        COALESCE(rides.booked_ride_minutes, 0) AS booked_ride_minutes,\n        COALESCE(searches.starting_available_cars, 0) AS starting_available_cars,\n        COALESCE(searches.searches, 0) AS searches,\n        COALESCE(searches.bookings, 0) AS bookings,\n        COALESCE(searches.unserved_searches, 0) AS unserved_searches,\n        COALESCE(searches.abandoned_searches, 0) AS abandoned_searches\n    FROM calendar_grid AS grid\n    LEFT JOIN status_by_hour AS status\n        ON grid.hour_ts = status.hour_ts AND grid.zone_id = status.zone_id\n    LEFT JOIN rides_by_hour AS rides\n        ON grid.hour_ts = rides.hour_ts AND grid.zone_id = rides.zone_id\n    LEFT JOIN searches_by_hour AS searches\n        ON grid.hour_ts = searches.hour_ts AND grid.zone_id = searches.zone_id\n),\nmetrics AS (\n    SELECT\n        hour_ts,\n        zone_id,\n        CAST(hour_ts AS DATE) AS calendar_date,\n        EXTRACT('hour' FROM hour_ts) AS hour_of_day,\n        EXTRACT('isodow' FROM hour_ts) AS iso_weekday,\n        CASE WHEN EXTRACT('isodow' FROM hour_ts) IN (6, 7) THEN 'weekend' ELSE 'weekday' END AS day_type,\n        available_car_minutes,\n        in_ride_minutes,\n        idle_minutes,\n        active_cars,\n        rides_started,\n        booked_ride_minutes,\n        starting_available_cars,\n        searches,\n        bookings,\n        unserved_searches,\n        abandoned_searches,\n        in_ride_minutes / NULLIF(in_ride_minutes + available_car_minutes, 0) AS utilization_rate,\n        available_car_minutes / NULLIF(in_ride_minutes + available_car_minutes, 0) AS idle_rate,\n        rides_started / NULLIF((in_ride_minutes + available_car_minutes) / 60.0, 0) AS rides_per_active_car,\n        bookings / NULLIF(searches, 0) AS search_to_book_conversion,\n        unserved_searches / NULLIF(searches, 0) AS lost_demand_proxy,\n        searches / NULLIF(available_car_minutes / 60.0, 0) AS demand_pressure\n    FROM completed_grid\n)\nSELECT\n    metrics.*,\n    LAG(available_car_minutes) OVER (\n        PARTITION BY zone_id ORDER BY hour_ts\n    ) AS previous_hour_available_car_minutes,\n    AVG(search_to_book_conversion) OVER (\n        PARTITION BY zone_id ORDER BY hour_ts ROWS BETWEEN 167 PRECEDING AND CURRENT ROW\n    ) AS rolling_7d_conversion,\n    AVG(lost_demand_proxy) OVER (\n        PARTITION BY zone_id ORDER BY hour_ts ROWS BETWEEN 167 PRECEDING AND CURRENT ROW\n    ) AS rolling_7d_lost_demand_proxy\nFROM metrics;\n",
+        "description": "Calendar-complete hourly synthetic supply, rides and search funnel by origin zone.",
+        "tables_used": [
+          "data/raw/car_statuses_hourly.csv",
+          "data/raw/rides.csv",
+          "data/raw/searches_hourly.csv",
+          "data/raw/zones.csv"
+        ],
+        "filters": [
+          "2025 synthetic local-hour data",
+          "all generated zones",
+          "no real customer or operator data"
+        ],
+        "executed_at": "2026-08-12T00:00:00Z",
+        "language": "sql"
+      }
+    },
+    {
+      "id": "fleet_daily_mart",
+      "query": {
+        "engine": "DuckDB",
+        "sql": "-- Fleet roll-up uses raw components, not an average of zone-level percentages.\nWITH fleet_daily AS (\n    SELECT\n        calendar_date,\n        SUM(available_car_minutes) AS available_car_minutes,\n        SUM(in_ride_minutes) AS in_ride_minutes,\n        SUM(idle_minutes) AS idle_minutes,\n        SUM(rides_started) AS rides_started,\n        SUM(searches) AS searches,\n        SUM(bookings) AS bookings,\n        SUM(unserved_searches) AS unserved_searches\n    FROM mart_zone_hour\n    GROUP BY 1\n)\nSELECT\n    calendar_date,\n    available_car_minutes,\n    in_ride_minutes,\n    idle_minutes,\n    rides_started,\n    searches,\n    bookings,\n    unserved_searches,\n    in_ride_minutes / NULLIF(in_ride_minutes + available_car_minutes, 0) AS utilization_rate,\n    rides_started / NULLIF((in_ride_minutes + available_car_minutes) / 60.0, 0) AS rides_per_active_car,\n    bookings / NULLIF(searches, 0) AS search_to_book_conversion,\n    unserved_searches / NULLIF(searches, 0) AS lost_demand_proxy,\n    AVG(in_ride_minutes / NULLIF(in_ride_minutes + available_car_minutes, 0)) OVER (\n        ORDER BY calendar_date ROWS BETWEEN 6 PRECEDING AND CURRENT ROW\n    ) AS rolling_7d_utilization_rate\nFROM fleet_daily\nORDER BY calendar_date;\n",
+        "description": "Fleet roll-up recalculates rates from components rather than averaging zone rates.",
+        "tables_used": [
+          "data/processed/mart_zone_hour.csv"
+        ],
+        "filters": [
+          "2025 synthetic local-day data"
+        ],
+        "executed_at": "2026-08-12T00:00:00Z",
+        "language": "sql"
+      }
+    }
+  ]
+}

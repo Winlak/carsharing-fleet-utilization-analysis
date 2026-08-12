@@ -1,0 +1,26 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  quality-and-reproducibility:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: make install
+      - name: Lint
+        run: make lint
+      - name: Test metric logic and SQL marts
+        run: make test
+      - name: Reproduce analysis and execute notebook
+        run: make reproduce
+      - name: Confirm tracked artefacts are reproducible
+        run: git diff --exit-code -- docs outputs notebooks artifacts/*.json data/processed/data_quality_report.md

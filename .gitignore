@@ -1,0 +1,22 @@
+# Generated raw data can be tens of megabytes; regenerate it with `make reproduce`.
+data/raw/*
+!data/raw/README.md
+
+# Keep the quality receipt only; marts are generated locally and in CI.
+data/processed/*
+!data/processed/data_quality_report.md
+
+# Python and notebook noise.
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+.DS_Store
+.venv/
+venv/
+
+# No credentials or local build artefacts.
+.env
+.env.*
+*.duckdb

@@ -1,0 +1,28 @@
+{
+  "data_label": "Synthetic portfolio dataset; not data from a real carsharing operator.",
+  "time_window": "2025-01-01 — 2025-12-31",
+  "fleet_size": 156,
+  "zones": 12,
+  "rides": 198990,
+  "searches": 311262,
+  "utilization_rate": 0.2644292073715756,
+  "available_car_minutes": 60189360,
+  "rides_per_active_car": 0.14591073773683272,
+  "search_to_book_conversion": 0.639300653468782,
+  "lost_demand_proxy": 0.04438704371237093,
+  "availability_conversion_spearman": 0.6667018154320759,
+  "top_relocation_hypothesis": {
+    "day_type": "weekday",
+    "hour_block": "вечер (17–21)",
+    "recipient_zone": "Деловой квартал",
+    "donor_zone": "Набережная",
+    "unserved_searches": 3287,
+    "search_to_book_conversion": 0.33963685047276376,
+    "lost_demand_proxy": 0.27503974562798095,
+    "recipient_idle_car_hours": 2209.0,
+    "donor_idle_car_hours": 25042.0,
+    "recommended_cars": 3,
+    "priority_score": 6049.199999999999,
+    "decision_note": "Гипотеза для рандомизированного пилота, не оценка причинного эффекта."
+  }
+}
