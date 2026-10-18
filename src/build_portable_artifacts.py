@@ -162,7 +162,7 @@ def build_artifacts(root: Path) -> None:
                 "type": "markdown",
                 "sourceId": "zone_hour_mart",
                 "body": (
-                    "## Executive Summary\n\n"
+                    "## Краткие результаты\n\n"
                     f"- **{summary['lost_demand_proxy']:.1%} поисков** завершились без автомобиля в исходной зоне.\n"
                     f"- **Утилизация {summary['utilization_rate']:.1%}** и конверсия **{summary['search_to_book_conversion']:.1%}** скрывают концентрированные дефициты.\n"
                     "- Релокации — экспериментальная гипотеза: наблюдательные связи не доказывают причинный эффект."
