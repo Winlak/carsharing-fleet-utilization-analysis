@@ -288,7 +288,7 @@ def run_analysis(processed_dir: Path, raw_dir: Path, outputs_dir: Path) -> dict[
     (outputs_dir / "analysis_summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2, default=str) + "\n", encoding="utf-8")
     chart_map = """# Карта визуализаций
 
-PNG ниже создаются локально для просмотра после `make reproduce`, но намеренно исключены из Git: байты Matplotlib могут отличаться между платформами. Канонические, версионируемые визуальные артефакты — self-contained [`fleet_dashboard.html`](../../artifacts/fleet_dashboard.html) и [`analysis_report.html`](../../artifacts/analysis_report.html).
+PNG ниже создаются локально для просмотра после `make reproduce`, но намеренно исключены из Git: байты Matplotlib могут отличаться между платформами. Канонические, версионируемые визуальные артефакты — автономные HTML-файлы [`fleet_dashboard.html`](../artifacts/fleet_dashboard.html) и [`analysis_report.html`](../artifacts/analysis_report.html).
 
 | Файл | Вопрос | Тип | Поддерживаемый вывод |
 |---|---|---|---|

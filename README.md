@@ -27,9 +27,9 @@
 
 ## Артефакты
 
-- [Аналитический отчёт](docs/analysis_report.md) — answer-first выводы, ограничения и дизайн пилота.
-- [Интерактивный переносимый отчёт](artifacts/analysis_report.html) — self-contained HTML с доступной семантической fallback-версией.
-- [Интерактивный переносимый дашборд](artifacts/fleet_dashboard.html) и [интерактивный отчёт](artifacts/analysis_report.html) — self-contained визуальные snapshot-артефакты.
+- [Аналитический отчёт](docs/analysis_report.md) — выводы, ограничения и дизайн пилота.
+- [Интерактивный переносимый отчёт](artifacts/analysis_report.html) — автономный HTML с текстовой версией.
+- [Интерактивный переносимый дашборд](artifacts/fleet_dashboard.html) и [интерактивный отчёт](artifacts/analysis_report.html) — автономные HTML-файлы с сохранёнными результатами.
 - [Jupyter-ноутбук](notebooks/fleet_utilization_analysis.ipynb) — pandas: загрузка, `merge`, фильтрация, `groupby`, пересчёт ставок и визуализация. Полностью исполненная копия создаётся локально в игнорируемом `work/`.
 - [Data dictionary](docs/data_dictionary.md) и [результат проверок качества](data/processed/data_quality_report.md).
 - SQL: [почасовая витрина](sql/01_zone_hour_supply_demand.sql), [дневная витрина](sql/02_zone_daily_metrics.sql), [fleet roll-up](sql/03_fleet_daily_summary.sql).
@@ -52,7 +52,7 @@
 
 ## Воспроизводимость
 
-Требования зафиксированы в [requirements.lock](requirements.lock). Полный прогон создаёт локальные raw CSV, запускает SQL-витрины в DuckDB, анализ в pandas, графики, Markdown-отчёт и исполняет notebook-копию. Большие raw- и mart-CSV, PNG-рендеры и исполненная notebook-копия не коммитятся: их байты зависят от графической и kernel-среды. Сохранённые отчёты и визуализации — self-contained HTML и их канонические JSON snapshot в `artifacts/`.
+Требования зафиксированы в [requirements.lock](requirements.lock). Полный прогон создаёт локальные raw CSV, запускает SQL-витрины в DuckDB, анализ в pandas, графики, Markdown-отчёт и исполняет notebook-копию. Большие raw- и mart-CSV, PNG-рендеры и исполненная notebook-копия не коммитятся: их байты зависят от графической и kernel-среды. Сохранённые отчёты и визуализации — автономные HTML и исходные JSON в `artifacts/`.
 
 ```bash
 git clone https://github.com/Winlak/carsharing-fleet-utilization-analysis.git
@@ -64,7 +64,7 @@ make reproduce
 make reproduce-check
 ```
 
-После `make reproduce` ключевые результаты находятся в `outputs/`, отчёт — в `docs/`, проверка качества — в `data/processed/data_quality_report.md`, а исполненный notebook — в `work/fleet_utilization_analysis.executed.ipynb`. `make reproduce-check` дополнительно подтверждает, что после полного pipeline Git-дерево остаётся чистым. HTML-артефакты уже лежат в `artifacts/` как self-contained snapshot; их канонические входы — `artifacts/*_artifact.json`.
+После `make reproduce` ключевые результаты находятся в `outputs/`, отчёт — в `docs/`, проверка качества — в `data/processed/data_quality_report.md`, а исполненный notebook — в `work/fleet_utilization_analysis.executed.ipynb`. `make reproduce-check` дополнительно подтверждает, что после полного pipeline Git-дерево остаётся чистым. HTML-артефакты уже лежат в `artifacts/` с сохранёнными результатами; их канонические входы — `artifacts/*_artifact.json`.
 
 ## Структура
 
@@ -75,7 +75,7 @@ tests/        тесты метрик и целостности SQL-витрин
 docs/         отчёт и словарь данных
 notebooks/    детерминированный исходник воспроизводимого анализа
 outputs/      локальные PNG-графики, приоритеты релокации, компактные итоговые таблицы
-artifacts/    переносимые self-contained HTML report/dashboard и их JSON snapshot
+artifacts/    HTML-отчёт, дашборд и исходные JSON
 work/         игнорируемая исполненная notebook-копия
 ```
 
